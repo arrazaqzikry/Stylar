@@ -9,14 +9,39 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SavedRouteImport } from './routes/saved'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as GetStartedRouteImport } from './routes/get-started'
 import { Route as GenerateRouteImport } from './routes/generate'
+import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SettingsTermsOfServiceRouteImport } from './routes/settings/terms-of-service'
+import { Route as SettingsSavedAddressRouteImport } from './routes/settings/saved-address'
+import { Route as SettingsReferAndEarnRouteImport } from './routes/settings/refer-and-earn'
+import { Route as SettingsPrivacyPolicyRouteImport } from './routes/settings/privacy-policy'
+import { Route as SettingsNotificationsRouteImport } from './routes/settings/notifications'
+import { Route as SettingsLanguageRouteImport } from './routes/settings/language'
+import { Route as SettingsIdentityVerificationRouteImport } from './routes/settings/identity-verification'
+import { Route as SettingsHelpCentreRouteImport } from './routes/settings/help-centre'
+import { Route as SettingsContactUsRouteImport } from './routes/settings/contact-us'
+import { Route as SettingsAppearanceRouteImport } from './routes/settings/appearance'
 
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SavedRoute = SavedRouteImport.update({
   id: '/saved',
   path: '/saved',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OnboardingRoute = OnboardingRouteImport.update({
@@ -24,9 +49,24 @@ const OnboardingRoute = OnboardingRouteImport.update({
   path: '/onboarding',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GetStartedRoute = GetStartedRouteImport.update({
+  id: '/get-started',
+  path: '/get-started',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GenerateRoute = GenerateRouteImport.update({
   id: '/generate',
   path: '/generate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -34,48 +74,231 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsTermsOfServiceRoute = SettingsTermsOfServiceRouteImport.update({
+  id: '/settings/terms-of-service',
+  path: '/settings/terms-of-service',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsSavedAddressRoute = SettingsSavedAddressRouteImport.update({
+  id: '/settings/saved-address',
+  path: '/settings/saved-address',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsReferAndEarnRoute = SettingsReferAndEarnRouteImport.update({
+  id: '/settings/refer-and-earn',
+  path: '/settings/refer-and-earn',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsPrivacyPolicyRoute = SettingsPrivacyPolicyRouteImport.update({
+  id: '/settings/privacy-policy',
+  path: '/settings/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsNotificationsRoute = SettingsNotificationsRouteImport.update({
+  id: '/settings/notifications',
+  path: '/settings/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsLanguageRoute = SettingsLanguageRouteImport.update({
+  id: '/settings/language',
+  path: '/settings/language',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsIdentityVerificationRoute =
+  SettingsIdentityVerificationRouteImport.update({
+    id: '/settings/identity-verification',
+    path: '/settings/identity-verification',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const SettingsHelpCentreRoute = SettingsHelpCentreRouteImport.update({
+  id: '/settings/help-centre',
+  path: '/settings/help-centre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsContactUsRoute = SettingsContactUsRouteImport.update({
+  id: '/settings/contact-us',
+  path: '/settings/contact-us',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsAppearanceRoute = SettingsAppearanceRouteImport.update({
+  id: '/settings/appearance',
+  path: '/settings/appearance',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/checkout': typeof CheckoutRoute
   '/generate': typeof GenerateRoute
+  '/get-started': typeof GetStartedRoute
+  '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
+  '/profile': typeof ProfileRoute
   '/saved': typeof SavedRoute
+  '/signup': typeof SignupRoute
+  '/settings/appearance': typeof SettingsAppearanceRoute
+  '/settings/contact-us': typeof SettingsContactUsRoute
+  '/settings/help-centre': typeof SettingsHelpCentreRoute
+  '/settings/identity-verification': typeof SettingsIdentityVerificationRoute
+  '/settings/language': typeof SettingsLanguageRoute
+  '/settings/notifications': typeof SettingsNotificationsRoute
+  '/settings/privacy-policy': typeof SettingsPrivacyPolicyRoute
+  '/settings/refer-and-earn': typeof SettingsReferAndEarnRoute
+  '/settings/saved-address': typeof SettingsSavedAddressRoute
+  '/settings/terms-of-service': typeof SettingsTermsOfServiceRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/checkout': typeof CheckoutRoute
   '/generate': typeof GenerateRoute
+  '/get-started': typeof GetStartedRoute
+  '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
+  '/profile': typeof ProfileRoute
   '/saved': typeof SavedRoute
+  '/signup': typeof SignupRoute
+  '/settings/appearance': typeof SettingsAppearanceRoute
+  '/settings/contact-us': typeof SettingsContactUsRoute
+  '/settings/help-centre': typeof SettingsHelpCentreRoute
+  '/settings/identity-verification': typeof SettingsIdentityVerificationRoute
+  '/settings/language': typeof SettingsLanguageRoute
+  '/settings/notifications': typeof SettingsNotificationsRoute
+  '/settings/privacy-policy': typeof SettingsPrivacyPolicyRoute
+  '/settings/refer-and-earn': typeof SettingsReferAndEarnRoute
+  '/settings/saved-address': typeof SettingsSavedAddressRoute
+  '/settings/terms-of-service': typeof SettingsTermsOfServiceRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/checkout': typeof CheckoutRoute
   '/generate': typeof GenerateRoute
+  '/get-started': typeof GetStartedRoute
+  '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
+  '/profile': typeof ProfileRoute
   '/saved': typeof SavedRoute
+  '/signup': typeof SignupRoute
+  '/settings/appearance': typeof SettingsAppearanceRoute
+  '/settings/contact-us': typeof SettingsContactUsRoute
+  '/settings/help-centre': typeof SettingsHelpCentreRoute
+  '/settings/identity-verification': typeof SettingsIdentityVerificationRoute
+  '/settings/language': typeof SettingsLanguageRoute
+  '/settings/notifications': typeof SettingsNotificationsRoute
+  '/settings/privacy-policy': typeof SettingsPrivacyPolicyRoute
+  '/settings/refer-and-earn': typeof SettingsReferAndEarnRoute
+  '/settings/saved-address': typeof SettingsSavedAddressRoute
+  '/settings/terms-of-service': typeof SettingsTermsOfServiceRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/generate' | '/onboarding' | '/saved'
+  fullPaths:
+    | '/'
+    | '/checkout'
+    | '/generate'
+    | '/get-started'
+    | '/login'
+    | '/onboarding'
+    | '/profile'
+    | '/saved'
+    | '/signup'
+    | '/settings/appearance'
+    | '/settings/contact-us'
+    | '/settings/help-centre'
+    | '/settings/identity-verification'
+    | '/settings/language'
+    | '/settings/notifications'
+    | '/settings/privacy-policy'
+    | '/settings/refer-and-earn'
+    | '/settings/saved-address'
+    | '/settings/terms-of-service'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/generate' | '/onboarding' | '/saved'
-  id: '__root__' | '/' | '/generate' | '/onboarding' | '/saved'
+  to:
+    | '/'
+    | '/checkout'
+    | '/generate'
+    | '/get-started'
+    | '/login'
+    | '/onboarding'
+    | '/profile'
+    | '/saved'
+    | '/signup'
+    | '/settings/appearance'
+    | '/settings/contact-us'
+    | '/settings/help-centre'
+    | '/settings/identity-verification'
+    | '/settings/language'
+    | '/settings/notifications'
+    | '/settings/privacy-policy'
+    | '/settings/refer-and-earn'
+    | '/settings/saved-address'
+    | '/settings/terms-of-service'
+  id:
+    | '__root__'
+    | '/'
+    | '/checkout'
+    | '/generate'
+    | '/get-started'
+    | '/login'
+    | '/onboarding'
+    | '/profile'
+    | '/saved'
+    | '/signup'
+    | '/settings/appearance'
+    | '/settings/contact-us'
+    | '/settings/help-centre'
+    | '/settings/identity-verification'
+    | '/settings/language'
+    | '/settings/notifications'
+    | '/settings/privacy-policy'
+    | '/settings/refer-and-earn'
+    | '/settings/saved-address'
+    | '/settings/terms-of-service'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CheckoutRoute: typeof CheckoutRoute
   GenerateRoute: typeof GenerateRoute
+  GetStartedRoute: typeof GetStartedRoute
+  LoginRoute: typeof LoginRoute
   OnboardingRoute: typeof OnboardingRoute
+  ProfileRoute: typeof ProfileRoute
   SavedRoute: typeof SavedRoute
+  SignupRoute: typeof SignupRoute
+  SettingsAppearanceRoute: typeof SettingsAppearanceRoute
+  SettingsContactUsRoute: typeof SettingsContactUsRoute
+  SettingsHelpCentreRoute: typeof SettingsHelpCentreRoute
+  SettingsIdentityVerificationRoute: typeof SettingsIdentityVerificationRoute
+  SettingsLanguageRoute: typeof SettingsLanguageRoute
+  SettingsNotificationsRoute: typeof SettingsNotificationsRoute
+  SettingsPrivacyPolicyRoute: typeof SettingsPrivacyPolicyRoute
+  SettingsReferAndEarnRoute: typeof SettingsReferAndEarnRoute
+  SettingsSavedAddressRoute: typeof SettingsSavedAddressRoute
+  SettingsTermsOfServiceRoute: typeof SettingsTermsOfServiceRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/saved': {
       id: '/saved'
       path: '/saved'
       fullPath: '/saved'
       preLoaderRoute: typeof SavedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/onboarding': {
@@ -85,11 +308,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/get-started': {
+      id: '/get-started'
+      path: '/get-started'
+      fullPath: '/get-started'
+      preLoaderRoute: typeof GetStartedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/generate': {
       id: '/generate'
       path: '/generate'
       fullPath: '/generate'
       preLoaderRoute: typeof GenerateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -99,15 +343,110 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings/terms-of-service': {
+      id: '/settings/terms-of-service'
+      path: '/settings/terms-of-service'
+      fullPath: '/settings/terms-of-service'
+      preLoaderRoute: typeof SettingsTermsOfServiceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/saved-address': {
+      id: '/settings/saved-address'
+      path: '/settings/saved-address'
+      fullPath: '/settings/saved-address'
+      preLoaderRoute: typeof SettingsSavedAddressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/refer-and-earn': {
+      id: '/settings/refer-and-earn'
+      path: '/settings/refer-and-earn'
+      fullPath: '/settings/refer-and-earn'
+      preLoaderRoute: typeof SettingsReferAndEarnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/privacy-policy': {
+      id: '/settings/privacy-policy'
+      path: '/settings/privacy-policy'
+      fullPath: '/settings/privacy-policy'
+      preLoaderRoute: typeof SettingsPrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/notifications': {
+      id: '/settings/notifications'
+      path: '/settings/notifications'
+      fullPath: '/settings/notifications'
+      preLoaderRoute: typeof SettingsNotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/language': {
+      id: '/settings/language'
+      path: '/settings/language'
+      fullPath: '/settings/language'
+      preLoaderRoute: typeof SettingsLanguageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/identity-verification': {
+      id: '/settings/identity-verification'
+      path: '/settings/identity-verification'
+      fullPath: '/settings/identity-verification'
+      preLoaderRoute: typeof SettingsIdentityVerificationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/help-centre': {
+      id: '/settings/help-centre'
+      path: '/settings/help-centre'
+      fullPath: '/settings/help-centre'
+      preLoaderRoute: typeof SettingsHelpCentreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/contact-us': {
+      id: '/settings/contact-us'
+      path: '/settings/contact-us'
+      fullPath: '/settings/contact-us'
+      preLoaderRoute: typeof SettingsContactUsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/appearance': {
+      id: '/settings/appearance'
+      path: '/settings/appearance'
+      fullPath: '/settings/appearance'
+      preLoaderRoute: typeof SettingsAppearanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CheckoutRoute: CheckoutRoute,
   GenerateRoute: GenerateRoute,
+  GetStartedRoute: GetStartedRoute,
+  LoginRoute: LoginRoute,
   OnboardingRoute: OnboardingRoute,
+  ProfileRoute: ProfileRoute,
   SavedRoute: SavedRoute,
+  SignupRoute: SignupRoute,
+  SettingsAppearanceRoute: SettingsAppearanceRoute,
+  SettingsContactUsRoute: SettingsContactUsRoute,
+  SettingsHelpCentreRoute: SettingsHelpCentreRoute,
+  SettingsIdentityVerificationRoute: SettingsIdentityVerificationRoute,
+  SettingsLanguageRoute: SettingsLanguageRoute,
+  SettingsNotificationsRoute: SettingsNotificationsRoute,
+  SettingsPrivacyPolicyRoute: SettingsPrivacyPolicyRoute,
+  SettingsReferAndEarnRoute: SettingsReferAndEarnRoute,
+  SettingsSavedAddressRoute: SettingsSavedAddressRoute,
+  SettingsTermsOfServiceRoute: SettingsTermsOfServiceRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

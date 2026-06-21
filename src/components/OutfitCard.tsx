@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import type { Outfit } from "@/lib/stylar";
+﻿import { useEffect, useState } from "react";
+import type { Outfit, Feedback } from "@/lib/stylar";
 import { loadFeedback, loadSaved, setFeedback, toggleSaved } from "@/lib/stylar";
 
 interface Props {
@@ -9,11 +9,11 @@ interface Props {
 
 export function OutfitCard({ outfit, variant = "full" }: Props) {
   const [saved, setSaved] = useState<string[]>([]);
-  const [fb, setFb] = useState<Record<string, "like" | "dislike" | undefined>>({});
+  const [fb, setFb] = useState<Feedback>({});
 
   useEffect(() => {
-    setSaved(loadSaved());
-    setFb(loadFeedback());
+    loadSaved().then(setSaved);
+    loadFeedback().then(setFb);
   }, []);
 
   const isSaved = saved.includes(outfit.id);
@@ -36,6 +36,19 @@ export function OutfitCard({ outfit, variant = "full" }: Props) {
         </div>
       </div>
     );
+  }
+
+  async function handleToggleSaved() {
+    const next = isSaved ? saved.filter((x) => x !== outfit.id) : [...saved, outfit.id];
+    setSaved(next);
+    await toggleSaved(outfit.id, isSaved);
+  }
+
+  async function handleFeedback(value: "like" | "dislike") {
+    const isToggleOff = userFb === value;
+    const next: Feedback = { ...fb, [outfit.id]: isToggleOff ? undefined : value };
+    setFb(next);
+    await setFeedback(outfit.id, value, userFb);
   }
 
   return (
@@ -73,7 +86,7 @@ export function OutfitCard({ outfit, variant = "full" }: Props) {
         <div className="hairline mt-10 pt-6">
           <p className="eyebrow">Why it works</p>
           <p className="font-display mt-2 text-xl italic text-foreground/90">
-            “{outfit.insight}”
+            "{outfit.insight}"
           </p>
         </div>
 
@@ -120,22 +133,22 @@ export function OutfitCard({ outfit, variant = "full" }: Props) {
 
         {/* actions */}
         <div className="hairline mt-10 flex flex-wrap items-center gap-3 pt-6">
-          <button
-            onClick={() => setSaved(toggleSaved(outfit.id))}
+          <button type="button"
+            onClick={handleToggleSaved}
             className="eyebrow border border-border px-5 py-3 transition-all hover:border-gold hover:text-gold"
             style={isSaved ? { borderColor: "var(--gold)", color: "var(--gold)" } : undefined}
           >
             {isSaved ? "Saved" : "Save Look"}
           </button>
-          <button
-            onClick={() => setFb(setFeedback(outfit.id, "like"))}
+          <button type="button"
+            onClick={() => handleFeedback("like")}
             className="eyebrow border border-border px-5 py-3 transition-all hover:border-foreground"
             style={userFb === "like" ? { borderColor: "var(--foreground)" } : undefined}
           >
             ♡ Adore
           </button>
-          <button
-            onClick={() => setFb(setFeedback(outfit.id, "dislike"))}
+          <button type="button"
+            onClick={() => handleFeedback("dislike")}
             className="eyebrow border border-border px-5 py-3 transition-all hover:border-foreground"
             style={userFb === "dislike" ? { borderColor: "var(--foreground)" } : undefined}
           >

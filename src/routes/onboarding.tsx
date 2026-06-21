@@ -1,5 +1,5 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+﻿import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import {
   BUDGETS,
   CATEGORIES,
@@ -37,14 +37,18 @@ const STEPS = [
 function Onboarding() {
   const nav = useNavigate();
   const [step, setStep] = useState(0);
-  const [p, setP] = useState<Profile>(() => loadProfile());
+  const [p, setP] = useState<Profile>({});
+
+  useEffect(() => {
+    loadProfile().then(setP);
+  }, []);
 
   const total = STEPS.length;
   const progress = ((step + 1) / total) * 100;
 
-  function next() {
+  async function next() {
     if (step === total - 1) {
-      saveProfile({ ...p, completed: true });
+      await saveProfile({ ...p, completed: true });
       nav({ to: "/generate" });
     } else {
       setStep(step + 1);
@@ -148,13 +152,13 @@ function Onboarding() {
         </div>
 
         <div className="hairline mt-20 flex items-center justify-between pt-6">
-          <button
+          <button type="button"
             onClick={back}
             className="eyebrow border border-border px-5 py-3 transition-colors hover:border-foreground"
           >
             ← Back
           </button>
-          <button
+          <button type="button"
             onClick={next}
             className="eyebrow border border-foreground bg-foreground px-7 py-3 text-primary-foreground transition-colors hover:bg-gold hover:border-gold hover:text-background"
           >
@@ -222,7 +226,7 @@ function FieldSwatch({
         {options.map((o) => {
           const active = selected === o.name;
           return (
-            <button
+            <button type="button"
               key={o.name}
               onClick={() => onSelect(o.name)}
               className="group flex flex-col items-center gap-3 text-center"
@@ -271,7 +275,7 @@ function FieldChips({
         {options.map((o) => {
           const active = selected.includes(o);
           return (
-            <button
+            <button type="button"
               key={o}
               onClick={() => onToggle(o)}
               className="eyebrow border px-5 py-3 transition-all"
@@ -307,7 +311,7 @@ function FieldColors({
         {COLOR_SWATCHES.map((c) => {
           const active = selected.includes(c.name);
           return (
-            <button
+            <button type="button"
               key={c.name}
               onClick={() => onToggle(c.name)}
               className="flex items-center gap-3 border px-3 py-2 transition-all"
