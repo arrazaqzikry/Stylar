@@ -22,13 +22,22 @@ import fi24 from "@/FashionAsset/FI-24.jpg";
 import fi14 from "@/FashionAsset/FI-14.jpg";
 import fi18 from "@/FashionAsset/FI-18.jpg";
 import fi23 from "@/FashionAsset/FI-23.jpg";
+// Cart & purchase history slot images
+import top1 from "@/FashionAsset/top/top-1.jpg";
+import top2 from "@/FashionAsset/top/top-2.avif";
+import trousers1 from "@/FashionAsset/trousers/trousers-1.jpg";
+import trousers2 from "@/FashionAsset/trousers/trousers-2.webp";
+import trousers3 from "@/FashionAsset/trousers/trousers-3.webp";
+import shoes1 from "@/FashionAsset/shoes/shoes-1.avif";
+import shoes2 from "@/FashionAsset/shoes/shoes-2.jpg";
+import shoes3 from "@/FashionAsset/shoes/shoes-3.jpg";
 
 const SAVED_LOOK_IMAGES = [fi3, fi7, fi11];
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
     meta: [
-      { title: "Profile — STYLAR" },
+      { title: "Stylar" },
       { name: "description", content: "Your personal STYLAR atelier profile." },
     ],
   }),
@@ -40,9 +49,9 @@ const SAVED_LOOKS = OUTFITS.filter((o) =>
 );
 
 const CART_ITEMS = [
-  { id: 1, name: "Merino Blend Crewneck", brand: "Uniqlo", price: "$59", bg: "#2b2d31" },
-  { id: 2, name: "Slim Straight Chino", brand: "COS", price: "$89", bg: "#c8bca8" },
-  { id: 3, name: "Leather Low Trainer", brand: "Veja", price: "$160", bg: "#f1ece2" },
+  { id: 1, name: "Merino Blend Crewneck", brand: "Uniqlo", price: "RM 59", img: top1 },
+  { id: 2, name: "Slim Straight Chino", brand: "COS", price: "RM 89", img: trousers1 },
+  { id: 3, name: "Leather Low Trainer", brand: "Veja", price: "RM 160", img: shoes1 },
 ];
 
 const WARDROBE_EDITS = ["Evening", "Office", "Weekend", "Travel", "Ceremony"];
@@ -82,37 +91,37 @@ type PurchaseOrder = {
   id: string;
   date: string;
   total: string;
-  items: { name: string; brand: string; price: string; type: string; bg: string }[];
+  items: { name: string; brand: string; price: string; type: string; img: string }[];
 };
 
 const PURCHASE_HISTORY: PurchaseOrder[] = [
   {
     id: "ord-001",
     date: "Jun 15, 2026",
-    total: "$308",
+    total: "RM 308",
     items: [
-      { name: "Leather Low Trainer", brand: "Veja", price: "$160", type: "Shoes", bg: "#f1ece2" },
-      { name: "Slim Straight Chino", brand: "COS", price: "$89", type: "Bottom", bg: "#c8bca8" },
-      { name: "Merino Crewneck", brand: "Uniqlo", price: "$59", type: "Top", bg: "#2b2d31" },
+      { name: "Leather Low Trainer", brand: "Veja", price: "RM 160", type: "Shoes", img: shoes1 },
+      { name: "Slim Straight Chino", brand: "COS", price: "RM 89", type: "Bottom", img: trousers1 },
+      { name: "Merino Crewneck", brand: "Uniqlo", price: "RM 59", type: "Top", img: top1 },
     ],
   },
   {
     id: "ord-002",
     date: "May 28, 2026",
-    total: "$520",
+    total: "RM 520",
     items: [
-      { name: "Oxford Brogue", brand: "Church's", price: "$390", type: "Shoes", bg: "#3e2418" },
-      { name: "Tailored Trouser", brand: "COS", price: "$130", type: "Bottom", bg: "#172033" },
+      { name: "Oxford Brogue", brand: "Church's", price: "RM 390", type: "Shoes", img: shoes2 },
+      { name: "Tailored Trouser", brand: "COS", price: "RM 130", type: "Bottom", img: trousers2 },
     ],
   },
   {
     id: "ord-003",
     date: "May 10, 2026",
-    total: "$1,150",
+    total: "RM 1,150",
     items: [
-      { name: "Strappy Sandal", brand: "By Far", price: "$380", type: "Shoes", bg: "#d4b896" },
-      { name: "Bias Silk Skirt", brand: "Anine Bing", price: "$390", type: "Bottom", bg: "#c9b48a" },
-      { name: "Single-Button Blazer", brand: "Saint Laurent", price: "$380", type: "Top", bg: "#0a0a0c" },
+      { name: "Strappy Sandal", brand: "By Far", price: "RM 380", type: "Shoes", img: shoes3 },
+      { name: "Bias Silk Skirt", brand: "Anine Bing", price: "RM 390", type: "Bottom", img: trousers3 },
+      { name: "Single-Button Blazer", brand: "Saint Laurent", price: "RM 380", type: "Top", img: top2 },
     ],
   },
 ];
@@ -340,7 +349,9 @@ function ProfilePage() {
             <div className="space-y-3">
               {cartItems.map((item) => (
                 <div key={item.id} className="flex items-center gap-3">
-                  <div className="h-11 w-11 flex-shrink-0 border border-border" style={{ backgroundColor: item.bg }} />
+                  <div className="h-11 w-11 flex-shrink-0 border border-border overflow-hidden">
+                    <img src={item.img} alt={item.name} className="h-full w-full object-cover" />
+                  </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-foreground truncate">{item.name}</p>
                     <p className="text-xs text-muted-foreground">{item.brand}</p>
@@ -360,7 +371,7 @@ function ProfilePage() {
             </div>
             <div className="mt-4 flex items-center justify-between border-t border-border pt-3">
               <span className="eyebrow">Total</span>
-              <span className="font-mono text-sm">${cartTotal}</span>
+              <span className="font-mono text-sm">RM {cartTotal}</span>
             </div>
             <Link
               to="/checkout"
@@ -696,7 +707,9 @@ function ProfilePage() {
               <div className="space-y-3 mb-5">
                 {selectedPurchase.items.map((item, i) => (
                   <div key={i} className="flex items-center gap-3 border border-border/50 p-2.5">
-                    <div className="h-12 w-12 flex-shrink-0" style={{ backgroundColor: item.bg }} />
+                    <div className="h-12 w-12 flex-shrink-0 overflow-hidden">
+                      <img src={item.img} alt={item.name} className="h-full w-full object-cover" />
+                    </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-foreground leading-tight">{item.name}</p>
                       <p className="text-[10px] text-muted-foreground">{item.brand}</p>

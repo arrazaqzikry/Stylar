@@ -41,7 +41,7 @@ const SLOT_IMAGES: Record<string, string[]> = {
 export const Route = createFileRoute("/generate")({
   head: () => ({
     meta: [
-      { title: "The Studio — STYLAR" },
+      { title: "Stylar" },
       {
         name: "description",
         content: "Compose a head-to-toe look. Set your style, budget and climate — Stylar does the rest.",
@@ -70,22 +70,22 @@ type ShopItem = {
 
 const SHOP_SETS: Record<string, ShopItem[]> = {
   minimal: [
-    { slot: "Top", name: "Merino Crewneck", brand: "Uniqlo", price: "$59", color: "#2b2d31" },
-    { slot: "Bottom", name: "Slim Straight Chino", brand: "COS", price: "$89", color: "#c8bca8" },
-    { slot: "Shoes", name: "Leather Low Trainer", brand: "Veja", price: "$160", color: "#f1ece2" },
-    { slot: "Accessory", name: "Canvas Tote", brand: "L.L.Bean", price: "$35", color: "#b08a5a", optional: true },
+    { slot: "Top", name: "Merino Crewneck", brand: "Uniqlo", price: "RM 59", color: "#2b2d31" },
+    { slot: "Bottom", name: "Slim Straight Chino", brand: "COS", price: "RM 89", color: "#c8bca8" },
+    { slot: "Shoes", name: "Leather Low Trainer", brand: "Veja", price: "RM 160", color: "#f1ece2" },
+    { slot: "Accessory", name: "Canvas Tote", brand: "L.L.Bean", price: "RM 35", color: "#b08a5a", optional: true },
   ],
   balanced: [
-    { slot: "Top", name: "Oxford Button-Down", brand: "Everlane", price: "$88", color: "#172033" },
-    { slot: "Bottom", name: "Tailored Trouser", brand: "COS", price: "$130", color: "#2b2d31" },
-    { slot: "Shoes", name: "Leather Loafer", brand: "Clarks", price: "$145", color: "#7a4d2e" },
-    { slot: "Accessory", name: "Crossbody Bag", brand: "Carhartt WIP", price: "$65", color: "#5b5a3a", optional: true },
+    { slot: "Top", name: "Oxford Button-Down", brand: "Everlane", price: "RM 88", color: "#172033" },
+    { slot: "Bottom", name: "Tailored Trouser", brand: "COS", price: "RM 130", color: "#2b2d31" },
+    { slot: "Shoes", name: "Leather Loafer", brand: "Clarks", price: "RM 145", color: "#7a4d2e" },
+    { slot: "Accessory", name: "Crossbody Bag", brand: "Carhartt WIP", price: "RM 65", color: "#5b5a3a", optional: true },
   ],
   mega: [
-    { slot: "Top", name: "Single-Button Blazer", brand: "Reiss", price: "$380", color: "#0a0a0c" },
-    { slot: "Bottom", name: "Tailored Dress Trouser", brand: "Reiss", price: "$220", color: "#172033" },
-    { slot: "Shoes", name: "Oxford Brogue", brand: "Church's", price: "$390", color: "#3e2418" },
-    { slot: "Accessory", name: "Silk Pocket Square", brand: "Drake's", price: "$75", color: "#c9b48a", optional: true },
+    { slot: "Top", name: "Single-Button Blazer", brand: "Reiss", price: "RM 380", color: "#0a0a0c" },
+    { slot: "Bottom", name: "Tailored Dress Trouser", brand: "Reiss", price: "RM 220", color: "#172033" },
+    { slot: "Shoes", name: "Oxford Brogue", brand: "Church's", price: "RM 390", color: "#3e2418" },
+    { slot: "Accessory", name: "Silk Pocket Square", brand: "Drake's", price: "RM 75", color: "#c9b48a", optional: true },
   ],
 };
 

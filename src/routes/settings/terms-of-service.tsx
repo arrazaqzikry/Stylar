@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/settings/terms-of-service")({
-  head: () => ({ meta: [{ title: "Terms of Service — STYLAR" }] }),
+  head: () => ({ meta: [{ title: "Stylar" }] }),
   component: TermsOfServicePage,
 });
 

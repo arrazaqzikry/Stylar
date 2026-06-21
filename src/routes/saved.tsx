@@ -2,6 +2,24 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { StylarNav } from "@/components/StylarNav";
 import { OUTFITS, type Outfit, type OutfitItem, type Category } from "@/lib/stylar";
+// Slot images for piece cards
+import top1 from "@/FashionAsset/top/top-1.jpg";
+import top2 from "@/FashionAsset/top/top-2.avif";
+import top3 from "@/FashionAsset/top/top-3.jpg";
+import trousers1 from "@/FashionAsset/trousers/trousers-1.jpg";
+import trousers2 from "@/FashionAsset/trousers/trousers-2.webp";
+import trousers3 from "@/FashionAsset/trousers/trousers-3.webp";
+import trousers4 from "@/FashionAsset/trousers/trousers-4.avif";
+import shoes1 from "@/FashionAsset/shoes/shoes-1.avif";
+import shoes2 from "@/FashionAsset/shoes/shoes-2.jpg";
+import shoes3 from "@/FashionAsset/shoes/shoes-3.jpg";
+import shoes4 from "@/FashionAsset/shoes/shoes-4.webp";
+import shoes5 from "@/FashionAsset/shoes/shoes-5.jpg";
+import acc1 from "@/FashionAsset/accessory/acc-1.jpg";
+import acc2 from "@/FashionAsset/accessory/acc-2.jpg";
+import acc3 from "@/FashionAsset/accessory/acc-3.jpg";
+import acc4 from "@/FashionAsset/accessory/acc-4.jpg";
+import acc5 from "@/FashionAsset/accessory/acc-5.jpg";
 import fi1 from "@/FashionAsset/FI-1.jpg";
 import fi2 from "@/FashionAsset/FI-2.avif";
 import fi3 from "@/FashionAsset/FI-3.avif";
@@ -32,10 +50,17 @@ const FASHION_IMAGES = [
   fi13, fi14, fi15, fi16, fi17, fi18, fi19, fi20, fi21, fi22, fi23, fi24,
 ];
 
+const SLOT_IMAGES: Record<string, string[]> = {
+  Top:       [top1, top2, top3],
+  Bottom:    [trousers1, trousers2, trousers3, trousers4],
+  Shoes:     [shoes1, shoes2, shoes3, shoes4, shoes5],
+  Accessory: [acc1, acc2, acc3, acc4, acc5],
+};
+
 export const Route = createFileRoute("/saved")({
   head: () => ({
     meta: [
-      { title: "For You — STYLAR" },
+      { title: "Stylar" },
       { name: "description", content: "Discover looks curated by Stylar AI, tuned to your taste." },
     ],
   }),
@@ -269,6 +294,12 @@ function OutfitDetailView({
   const [itemLiked, setItemLiked] = useState<Set<string>>(new Set());
   const slotItems = getSlotItems(outfit);
 
+  const outfitIdx = OUTFITS.findIndex((o) => o.id === outfit.id);
+  function slotImgFor(label: string): string {
+    const pool = SLOT_IMAGES[label] ?? SLOT_IMAGES.Top;
+    return pool[outfitIdx % pool.length];
+  }
+
   function toggleItemLike(label: string) {
     setItemLiked((prev) => {
       const next = new Set(prev);
@@ -379,6 +410,7 @@ function OutfitDetailView({
                 key={label}
                 label={label}
                 item={item}
+                img={slotImgFor(label)}
                 liked={itemLiked.has(label)}
                 onToggleLike={() => toggleItemLike(label)}
               />
@@ -392,31 +424,25 @@ function OutfitDetailView({
 
 /* ── 2×2 piece card ────────────────────────────────────────── */
 
-const SLOT_BG: Record<string, string> = {
-  Top: "#2b2d31",
-  Bottom: "#c8bca8",
-  Shoes: "#3e2418",
-  Accessory: "#c9b48a",
-};
-
 function PieceCard({
   label,
   item,
+  img,
   liked,
   onToggleLike,
 }: {
   label: string;
   item: OutfitItem | null;
+  img: string;
   liked: boolean;
   onToggleLike: () => void;
 }) {
   return (
     <div className="border border-border overflow-hidden">
-      <div
-        className="relative w-full aspect-square flex items-center justify-center"
-        style={{ backgroundColor: SLOT_BG[label] ?? "#1a1a1a" }}
-      >
-        <span className="eyebrow text-[7px] text-white/40">{label}</span>
+      <div className="relative w-full aspect-square overflow-hidden">
+        <img src={img} alt={label} className="h-full w-full object-cover" />
+        <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
+        <span className="absolute bottom-1.5 left-2 eyebrow text-[7px] text-white/70">{label}</span>
         <button
           type="button"
           onClick={onToggleLike}

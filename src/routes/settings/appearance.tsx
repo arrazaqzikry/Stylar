@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 
 export const Route = createFileRoute("/settings/appearance")({
-  head: () => ({ meta: [{ title: "Appearance — STYLAR" }] }),
+  head: () => ({ meta: [{ title: "Stylar" }] }),
   component: AppearancePage,
 });
 

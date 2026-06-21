@@ -76,10 +76,10 @@ export const OUTFITS: Outfit[] = [
     insight: "Warm neutrals reflect evening light beautifully; breathable fabrics keep composure past midnight.",
     confidence: 91,
     items: [
-      { slot: "Outerwear", name: "Linen Blazer", brand: "Theory", price: "$495", link: "#" },
-      { slot: "Top", name: "Silk Cami", brand: "Vince", price: "$195", link: "#" },
-      { slot: "Bottom", name: "Wide-Leg Linen Short", brand: "Toteme", price: "$320", link: "#" },
-      { slot: "Shoes", name: "Strappy Sandal", brand: "By Far", price: "$380", link: "#" },
+      { slot: "Outerwear", name: "Linen Blazer", brand: "Theory", price: "RM495", link: "#" },
+      { slot: "Top", name: "Silk Cami", brand: "Vince", price: "RM195", link: "#" },
+      { slot: "Bottom", name: "Wide-Leg Linen Short", brand: "Toteme", price: "RM320", link: "#" },
+      { slot: "Shoes", name: "Strappy Sandal", brand: "By Far", price: "RM380", link: "#" },
     ],
   },
   {
@@ -99,10 +99,10 @@ export const OUTFITS: Outfit[] = [
     insight: "Champagne against black creates editorial drama and frames the face.",
     confidence: 94,
     items: [
-      { slot: "Top", name: "Single-Button Blazer", brand: "Saint Laurent", price: "$2,490", link: "#" },
-      { slot: "Bottom", name: "Bias Silk Skirt", brand: "Anine Bing", price: "$390", link: "#" },
-      { slot: "Shoes", name: "Strappy Heel", brand: "Manolo Blahnik", price: "$795", link: "#" },
-      { slot: "Accessory", name: "Gold Cuff", brand: "Sophie Buhai", price: "$650", link: "#" },
+      { slot: "Top", name: "Single-Button Blazer", brand: "Saint Laurent", price: "RM2,490", link: "#" },
+      { slot: "Bottom", name: "Bias Silk Skirt", brand: "Anine Bing", price: "RM390", link: "#" },
+      { slot: "Shoes", name: "Strappy Heel", brand: "Manolo Blahnik", price: "RM795", link: "#" },
+      { slot: "Accessory", name: "Gold Cuff", brand: "Sophie Buhai", price: "RM650", link: "#" },
     ],
   },
   {
@@ -122,10 +122,10 @@ export const OUTFITS: Outfit[] = [
     insight: "Rich jewel tones elevate winter dressing; velvet adds texture without bulk.",
     confidence: 90,
     items: [
-      { slot: "Top", name: "Velvet Blazer", brand: "Ralph Lauren", price: "$890", link: "#" },
-      { slot: "Top", name: "Ribbed Silk Cami", brand: "Vince", price: "$195", link: "#" },
-      { slot: "Bottom", name: "Slim Tailored Trouser", brand: "Equipment", price: "$290", link: "#" },
-      { slot: "Shoes", name: "Heeled Ankle Boot", brand: "Isabel Marant", price: "$650", link: "#" },
+      { slot: "Top", name: "Velvet Blazer", brand: "Ralph Lauren", price: "RM890", link: "#" },
+      { slot: "Top", name: "Ribbed Silk Cami", brand: "Vince", price: "RM195", link: "#" },
+      { slot: "Bottom", name: "Slim Tailored Trouser", brand: "Equipment", price: "RM290", link: "#" },
+      { slot: "Shoes", name: "Heeled Ankle Boot", brand: "Isabel Marant", price: "RM650", link: "#" },
     ],
   },
   {
@@ -145,10 +145,10 @@ export const OUTFITS: Outfit[] = [
     insight: "Monochrome dressing elongates the silhouette; water-resistant outerwear adds function without compromise.",
     confidence: 88,
     items: [
-      { slot: "Outerwear", name: "Belted Trench", brand: "A.P.C.", price: "$680", link: "#" },
-      { slot: "Top", name: "Ribbed Turtleneck", brand: "COS", price: "$120", link: "#" },
-      { slot: "Bottom", name: "Tailored Straight Trouser", brand: "COS", price: "$150", link: "#" },
-      { slot: "Shoes", name: "Chelsea Boot", brand: "Dr. Martens", price: "$200", link: "#" },
+      { slot: "Outerwear", name: "Belted Trench", brand: "A.P.C.", price: "RM680", link: "#" },
+      { slot: "Top", name: "Ribbed Turtleneck", brand: "COS", price: "RM120", link: "#" },
+      { slot: "Bottom", name: "Tailored Straight Trouser", brand: "COS", price: "RM150", link: "#" },
+      { slot: "Shoes", name: "Chelsea Boot", brand: "Dr. Martens", price: "RM200", link: "#" },
     ],
   },
 
@@ -170,10 +170,10 @@ export const OUTFITS: Outfit[] = [
     insight: "Loose-weave fabrics allow air circulation; neutral tones read polished under any office lighting.",
     confidence: 87,
     items: [
-      { slot: "Outerwear", name: "Linen Blazer", brand: "COS", price: "$175", link: "#" },
-      { slot: "Top", name: "Cotton Oxford Shirt", brand: "Everlane", price: "$88", link: "#" },
-      { slot: "Bottom", name: "Linen Trouser", brand: "COS", price: "$130", link: "#" },
-      { slot: "Shoes", name: "Leather Loafer", brand: "Mango", price: "$120", link: "#" },
+      { slot: "Outerwear", name: "Linen Blazer", brand: "COS", price: "RM175", link: "#" },
+      { slot: "Top", name: "Cotton Oxford Shirt", brand: "Everlane", price: "RM88", link: "#" },
+      { slot: "Bottom", name: "Linen Trouser", brand: "COS", price: "RM130", link: "#" },
+      { slot: "Shoes", name: "Leather Loafer", brand: "Mango", price: "RM120", link: "#" },
     ],
   },
   {
@@ -193,10 +193,10 @@ export const OUTFITS: Outfit[] = [
     insight: "Vertical lines elongate proportion; cool tones project quiet confidence in any room.",
     confidence: 96,
     items: [
-      { slot: "Outerwear", name: "Wool Overcoat", brand: "The Row", price: "$2,890", link: "#" },
-      { slot: "Top", name: "Merino Turtleneck", brand: "Lemaire", price: "$420", link: "#" },
-      { slot: "Bottom", name: "Pleated Wide Trouser", brand: "Studio Nicholson", price: "$510", link: "#" },
-      { slot: "Shoes", name: "Leather Derby", brand: "Common Projects", price: "$540", link: "#" },
+      { slot: "Outerwear", name: "Wool Overcoat", brand: "The Row", price: "RM2,890", link: "#" },
+      { slot: "Top", name: "Merino Turtleneck", brand: "Lemaire", price: "RM420", link: "#" },
+      { slot: "Bottom", name: "Pleated Wide Trouser", brand: "Studio Nicholson", price: "RM510", link: "#" },
+      { slot: "Shoes", name: "Leather Derby", brand: "Common Projects", price: "RM540", link: "#" },
     ],
   },
   {
@@ -216,10 +216,10 @@ export const OUTFITS: Outfit[] = [
     insight: "Wool provides insulation without sacrificing a polished silhouette; neutral tones read sharp.",
     confidence: 89,
     items: [
-      { slot: "Outerwear", name: "Wool Blazer", brand: "Theory", price: "$590", link: "#" },
-      { slot: "Top", name: "Fine Merino Crewneck", brand: "Uniqlo", price: "$80", link: "#" },
-      { slot: "Bottom", name: "Tailored Trouser", brand: "COS", price: "$150", link: "#" },
-      { slot: "Shoes", name: "Leather Oxford", brand: "Clarks", price: "$160", link: "#" },
+      { slot: "Outerwear", name: "Wool Blazer", brand: "Theory", price: "RM590", link: "#" },
+      { slot: "Top", name: "Fine Merino Crewneck", brand: "Uniqlo", price: "RM80", link: "#" },
+      { slot: "Bottom", name: "Tailored Trouser", brand: "COS", price: "RM150", link: "#" },
+      { slot: "Shoes", name: "Leather Oxford", brand: "Clarks", price: "RM160", link: "#" },
     ],
   },
   {
@@ -239,10 +239,10 @@ export const OUTFITS: Outfit[] = [
     insight: "A technical outer layer protects investment pieces; the structured underlayer holds the look.",
     confidence: 86,
     items: [
-      { slot: "Outerwear", name: "Waterproof Trench", brand: "Mackintosh", price: "$890", link: "#" },
-      { slot: "Top", name: "Structured Blazer", brand: "COS", price: "$175", link: "#" },
-      { slot: "Bottom", name: "Slim Trouser", brand: "Uniqlo", price: "$70", link: "#" },
-      { slot: "Shoes", name: "Chelsea Boot", brand: "Thursday Boots", price: "$199", link: "#" },
+      { slot: "Outerwear", name: "Waterproof Trench", brand: "Mackintosh", price: "RM890", link: "#" },
+      { slot: "Top", name: "Structured Blazer", brand: "COS", price: "RM175", link: "#" },
+      { slot: "Bottom", name: "Slim Trouser", brand: "Uniqlo", price: "RM70", link: "#" },
+      { slot: "Shoes", name: "Chelsea Boot", brand: "Thursday Boots", price: "RM199", link: "#" },
     ],
   },
 
@@ -264,10 +264,10 @@ export const OUTFITS: Outfit[] = [
     insight: "Natural fibres regulate body temperature; earth-toned accessories anchor a relaxed palette.",
     confidence: 85,
     items: [
-      { slot: "Top", name: "Linen Camp Shirt", brand: "Uniqlo", price: "$40", link: "#" },
-      { slot: "Bottom", name: "Relaxed Chino Short", brand: "Gap", price: "$50", link: "#" },
-      { slot: "Shoes", name: "Canvas Low Sneaker", brand: "Veja", price: "$160", link: "#" },
-      { slot: "Accessory", name: "Canvas Tote", brand: "L.L.Bean", price: "$30", link: "#" },
+      { slot: "Top", name: "Linen Camp Shirt", brand: "Uniqlo", price: "RM40", link: "#" },
+      { slot: "Bottom", name: "Relaxed Chino Short", brand: "Gap", price: "RM50", link: "#" },
+      { slot: "Shoes", name: "Canvas Low Sneaker", brand: "Veja", price: "RM160", link: "#" },
+      { slot: "Accessory", name: "Canvas Tote", brand: "L.L.Bean", price: "RM30", link: "#" },
     ],
   },
   {
@@ -287,10 +287,10 @@ export const OUTFITS: Outfit[] = [
     insight: "Tonal layering creates visual cohesion with minimal effort; clean sneakers elevate the basics.",
     confidence: 83,
     items: [
-      { slot: "Top", name: "Zip Hoodie", brand: "Champion", price: "$70", link: "#" },
-      { slot: "Bottom", name: "Straight Leg Denim", brand: "Levi's", price: "$98", link: "#" },
-      { slot: "Shoes", name: "Leather Low Sneaker", brand: "Veja", price: "$160", link: "#" },
-      { slot: "Accessory", name: "Crossbody Bag", brand: "Carhartt WIP", price: "$55", link: "#" },
+      { slot: "Top", name: "Zip Hoodie", brand: "Champion", price: "RM70", link: "#" },
+      { slot: "Bottom", name: "Straight Leg Denim", brand: "Levi's", price: "RM98", link: "#" },
+      { slot: "Shoes", name: "Leather Low Sneaker", brand: "Veja", price: "RM160", link: "#" },
+      { slot: "Accessory", name: "Crossbody Bag", brand: "Carhartt WIP", price: "RM55", link: "#" },
     ],
   },
   {
@@ -310,10 +310,10 @@ export const OUTFITS: Outfit[] = [
     insight: "A puffer under a parka traps air efficiently; straight denim grounds the volume above.",
     confidence: 84,
     items: [
-      { slot: "Outerwear", name: "Puffer Jacket", brand: "Patagonia", price: "$279", link: "#" },
-      { slot: "Top", name: "Cable-Knit Sweater", brand: "Barbour", price: "$195", link: "#" },
-      { slot: "Bottom", name: "Straight-Leg Denim", brand: "Levi's", price: "$98", link: "#" },
-      { slot: "Shoes", name: "Wool-Lined Boot", brand: "Timberland", price: "$199", link: "#" },
+      { slot: "Outerwear", name: "Puffer Jacket", brand: "Patagonia", price: "RM279", link: "#" },
+      { slot: "Top", name: "Cable-Knit Sweater", brand: "Barbour", price: "RM195", link: "#" },
+      { slot: "Bottom", name: "Straight-Leg Denim", brand: "Levi's", price: "RM98", link: "#" },
+      { slot: "Shoes", name: "Wool-Lined Boot", brand: "Timberland", price: "RM199", link: "#" },
     ],
   },
   {
@@ -333,10 +333,10 @@ export const OUTFITS: Outfit[] = [
     insight: "Earth tones harmonise with warm undertones; relaxed fit reads modern, not heavy.",
     confidence: 89,
     items: [
-      { slot: "Outerwear", name: "Cotton Trench", brand: "Burberry", price: "$2,190", link: "#" },
-      { slot: "Top", name: "Heavyweight Tee", brand: "Lady White Co.", price: "$95", link: "#" },
-      { slot: "Bottom", name: "Straight Leg Denim", brand: "AGOLDE", price: "$220", link: "#" },
-      { slot: "Shoes", name: "Low Leather Sneaker", brand: "Veja", price: "$160", link: "#" },
+      { slot: "Outerwear", name: "Cotton Trench", brand: "Burberry", price: "RM2,190", link: "#" },
+      { slot: "Top", name: "Heavyweight Tee", brand: "Lady White Co.", price: "RM95", link: "#" },
+      { slot: "Bottom", name: "Straight Leg Denim", brand: "AGOLDE", price: "RM220", link: "#" },
+      { slot: "Shoes", name: "Low Leather Sneaker", brand: "Veja", price: "RM160", link: "#" },
     ],
   },
 
@@ -358,10 +358,10 @@ export const OUTFITS: Outfit[] = [
     insight: "Linen breathes in warmth; champagne tones flatter all skin tones in outdoor afternoon light.",
     confidence: 92,
     items: [
-      { slot: "Top", name: "Ivory Linen Suit Jacket", brand: "Reiss", price: "$380", link: "#" },
-      { slot: "Bottom", name: "Matching Linen Trouser", brand: "Reiss", price: "$220", link: "#" },
-      { slot: "Shoes", name: "Woven Loafer", brand: "Tod's", price: "$595", link: "#" },
-      { slot: "Accessory", name: "Silk Pocket Square", brand: "Drake's", price: "$75", link: "#" },
+      { slot: "Top", name: "Ivory Linen Suit Jacket", brand: "Reiss", price: "RM380", link: "#" },
+      { slot: "Bottom", name: "Matching Linen Trouser", brand: "Reiss", price: "RM220", link: "#" },
+      { slot: "Shoes", name: "Woven Loafer", brand: "Tod's", price: "RM595", link: "#" },
+      { slot: "Accessory", name: "Silk Pocket Square", brand: "Drake's", price: "RM75", link: "#" },
     ],
   },
   {
@@ -381,10 +381,10 @@ export const OUTFITS: Outfit[] = [
     insight: "Structured proportions photograph beautifully; neutral palette complements any wedding colour scheme.",
     confidence: 93,
     items: [
-      { slot: "Top", name: "Single-Button Blazer", brand: "Brioni", price: "$2,490", link: "#" },
-      { slot: "Bottom", name: "Tailored Dress Trouser", brand: "Brioni", price: "$890", link: "#" },
-      { slot: "Shoes", name: "Oxford Brogue", brand: "Church's", price: "$650", link: "#" },
-      { slot: "Accessory", name: "Silk Pocket Square", brand: "Drake's", price: "$75", link: "#" },
+      { slot: "Top", name: "Single-Button Blazer", brand: "Brioni", price: "RM2,490", link: "#" },
+      { slot: "Bottom", name: "Tailored Dress Trouser", brand: "Brioni", price: "RM890", link: "#" },
+      { slot: "Shoes", name: "Oxford Brogue", brand: "Church's", price: "RM650", link: "#" },
+      { slot: "Accessory", name: "Silk Pocket Square", brand: "Drake's", price: "RM75", link: "#" },
     ],
   },
   {
@@ -404,11 +404,11 @@ export const OUTFITS: Outfit[] = [
     insight: "Dark suiting against white ceremony settings creates striking contrast; cashmere adds warmth without weight.",
     confidence: 91,
     items: [
-      { slot: "Outerwear", name: "Slim Cashmere Overcoat", brand: "Canali", price: "$1,890", link: "#" },
-      { slot: "Top", name: "Wool Suit Jacket", brand: "Suitsupply", price: "$599", link: "#" },
-      { slot: "Bottom", name: "Matching Suit Trouser", brand: "Suitsupply", price: "$249", link: "#" },
-      { slot: "Shoes", name: "Oxford", brand: "Church's", price: "$650", link: "#" },
-      { slot: "Accessory", name: "Silk Pocket Square", brand: "Drake's", price: "$75", link: "#" },
+      { slot: "Outerwear", name: "Slim Cashmere Overcoat", brand: "Canali", price: "RM1,890", link: "#" },
+      { slot: "Top", name: "Wool Suit Jacket", brand: "Suitsupply", price: "RM599", link: "#" },
+      { slot: "Bottom", name: "Matching Suit Trouser", brand: "Suitsupply", price: "RM249", link: "#" },
+      { slot: "Shoes", name: "Oxford", brand: "Church's", price: "RM650", link: "#" },
+      { slot: "Accessory", name: "Silk Pocket Square", brand: "Drake's", price: "RM75", link: "#" },
     ],
   },
   {
@@ -428,11 +428,11 @@ export const OUTFITS: Outfit[] = [
     insight: "Waterproof outerwear protects the suit; dark tones mask any rain marks on a formal day.",
     confidence: 88,
     items: [
-      { slot: "Outerwear", name: "Waterproof Overcoat", brand: "Stutterheim", price: "$490", link: "#" },
-      { slot: "Top", name: "Double-Breasted Suit Jacket", brand: "Suitsupply", price: "$699", link: "#" },
-      { slot: "Bottom", name: "Matching Suit Trouser", brand: "Suitsupply", price: "$249", link: "#" },
-      { slot: "Shoes", name: "Leather Oxford", brand: "Loake", price: "$390", link: "#" },
-      { slot: "Accessory", name: "Silk Pocket Square", brand: "Drake's", price: "$75", link: "#" },
+      { slot: "Outerwear", name: "Waterproof Overcoat", brand: "Stutterheim", price: "RM490", link: "#" },
+      { slot: "Top", name: "Double-Breasted Suit Jacket", brand: "Suitsupply", price: "RM699", link: "#" },
+      { slot: "Bottom", name: "Matching Suit Trouser", brand: "Suitsupply", price: "RM249", link: "#" },
+      { slot: "Shoes", name: "Leather Oxford", brand: "Loake", price: "RM390", link: "#" },
+      { slot: "Accessory", name: "Silk Pocket Square", brand: "Drake's", price: "RM75", link: "#" },
     ],
   },
 
@@ -454,10 +454,10 @@ export const OUTFITS: Outfit[] = [
     insight: "Lightweight natural fibres regulate heat; muted earth tones harmonise in outdoor afternoon light.",
     confidence: 85,
     items: [
-      { slot: "Top", name: "Camp Collar Linen Shirt", brand: "Universal Works", price: "$120", link: "#" },
-      { slot: "Bottom", name: "Relaxed Linen Short", brand: "COS", price: "$75", link: "#" },
-      { slot: "Shoes", name: "Leather Sandal", brand: "Birkenstock", price: "$115", link: "#" },
-      { slot: "Accessory", name: "Woven Bucket Hat", brand: "Brixton", price: "$45", link: "#" },
+      { slot: "Top", name: "Camp Collar Linen Shirt", brand: "Universal Works", price: "RM120", link: "#" },
+      { slot: "Bottom", name: "Relaxed Linen Short", brand: "COS", price: "RM75", link: "#" },
+      { slot: "Shoes", name: "Leather Sandal", brand: "Birkenstock", price: "RM115", link: "#" },
+      { slot: "Accessory", name: "Woven Bucket Hat", brand: "Brixton", price: "RM45", link: "#" },
     ],
   },
   {
@@ -477,9 +477,9 @@ export const OUTFITS: Outfit[] = [
     insight: "Warm cream lifts skin undertone; relaxed tailoring balances proportion.",
     confidence: 92,
     items: [
-      { slot: "Top", name: "Brushed Cashmere Knit", brand: "Khaite", price: "$980", link: "#" },
-      { slot: "Bottom", name: "Pleated Camel Trouser", brand: "Toteme", price: "$490", link: "#" },
-      { slot: "Shoes", name: "Pointed Mule", brand: "Aeyde", price: "$320", link: "#" },
+      { slot: "Top", name: "Brushed Cashmere Knit", brand: "Khaite", price: "RM980", link: "#" },
+      { slot: "Bottom", name: "Pleated Camel Trouser", brand: "Toteme", price: "RM490", link: "#" },
+      { slot: "Shoes", name: "Pointed Mule", brand: "Aeyde", price: "RM320", link: "#" },
     ],
   },
   {
@@ -499,10 +499,10 @@ export const OUTFITS: Outfit[] = [
     insight: "Camel tones flatter most skin tones and read polished without effort in winter light.",
     confidence: 86,
     items: [
-      { slot: "Outerwear", name: "Down Parka", brand: "Canada Goose", price: "$995", link: "#" },
-      { slot: "Top", name: "Chunky Knit Sweater", brand: "Norse Projects", price: "$290", link: "#" },
-      { slot: "Bottom", name: "Tapered Chino", brand: "Corridor", price: "$180", link: "#" },
-      { slot: "Shoes", name: "Leather Chelsea", brand: "Thursday Boots", price: "$199", link: "#" },
+      { slot: "Outerwear", name: "Down Parka", brand: "Canada Goose", price: "RM995", link: "#" },
+      { slot: "Top", name: "Chunky Knit Sweater", brand: "Norse Projects", price: "RM290", link: "#" },
+      { slot: "Bottom", name: "Tapered Chino", brand: "Corridor", price: "RM180", link: "#" },
+      { slot: "Shoes", name: "Leather Chelsea", brand: "Thursday Boots", price: "RM199", link: "#" },
     ],
   },
   {
@@ -522,10 +522,10 @@ export const OUTFITS: Outfit[] = [
     insight: "Waxed cotton repels water naturally; earth tones mask outdoor splashes.",
     confidence: 83,
     items: [
-      { slot: "Outerwear", name: "Waxed Cotton Jacket", brand: "Barbour", price: "$445", link: "#" },
-      { slot: "Top", name: "Striped Breton Tee", brand: "Saint James", price: "$120", link: "#" },
-      { slot: "Bottom", name: "Relaxed Straight Denim", brand: "Levi's", price: "$98", link: "#" },
-      { slot: "Shoes", name: "Rubber Chelsea Boot", brand: "Hunter", price: "$150", link: "#" },
+      { slot: "Outerwear", name: "Waxed Cotton Jacket", brand: "Barbour", price: "RM445", link: "#" },
+      { slot: "Top", name: "Striped Breton Tee", brand: "Saint James", price: "RM120", link: "#" },
+      { slot: "Bottom", name: "Relaxed Straight Denim", brand: "Levi's", price: "RM98", link: "#" },
+      { slot: "Shoes", name: "Rubber Chelsea Boot", brand: "Hunter", price: "RM150", link: "#" },
     ],
   },
 
@@ -547,10 +547,10 @@ export const OUTFITS: Outfit[] = [
     insight: "Light suiting reflects heat; breathable fabrics maintain composure through long days.",
     confidence: 87,
     items: [
-      { slot: "Outerwear", name: "Linen Blazer", brand: "Sandro", price: "$395", link: "#" },
-      { slot: "Top", name: "Cotton Shirt", brand: "Everlane", price: "$88", link: "#" },
-      { slot: "Bottom", name: "Light Wool Trouser", brand: "Hugo Boss", price: "$220", link: "#" },
-      { slot: "Shoes", name: "Leather Loafer", brand: "Carmina", price: "$390", link: "#" },
+      { slot: "Outerwear", name: "Linen Blazer", brand: "Sandro", price: "RM395", link: "#" },
+      { slot: "Top", name: "Cotton Shirt", brand: "Everlane", price: "RM88", link: "#" },
+      { slot: "Bottom", name: "Light Wool Trouser", brand: "Hugo Boss", price: "RM220", link: "#" },
+      { slot: "Shoes", name: "Leather Loafer", brand: "Carmina", price: "RM390", link: "#" },
     ],
   },
   {
@@ -570,10 +570,10 @@ export const OUTFITS: Outfit[] = [
     insight: "Charcoal reads authoritative in any light; classic proportions communicate competence.",
     confidence: 90,
     items: [
-      { slot: "Top", name: "Charcoal Suit Jacket", brand: "Suitsupply", price: "$599", link: "#" },
-      { slot: "Bottom", name: "Matching Trouser", brand: "Suitsupply", price: "$199", link: "#" },
-      { slot: "Shoes", name: "Leather Oxford", brand: "Church's", price: "$650", link: "#" },
-      { slot: "Accessory", name: "White Oxford Shirt", brand: "Thomas Pink", price: "$175", link: "#" },
+      { slot: "Top", name: "Charcoal Suit Jacket", brand: "Suitsupply", price: "RM599", link: "#" },
+      { slot: "Bottom", name: "Matching Trouser", brand: "Suitsupply", price: "RM199", link: "#" },
+      { slot: "Shoes", name: "Leather Oxford", brand: "Church's", price: "RM650", link: "#" },
+      { slot: "Accessory", name: "White Oxford Shirt", brand: "Thomas Pink", price: "RM175", link: "#" },
     ],
   },
   {
@@ -593,10 +593,10 @@ export const OUTFITS: Outfit[] = [
     insight: "Navy suiting under charcoal creates depth; cashmere adds luxury without bulk.",
     confidence: 89,
     items: [
-      { slot: "Outerwear", name: "Cashmere Overcoat", brand: "Canali", price: "$2,490", link: "#" },
-      { slot: "Top", name: "Wool Suit Jacket", brand: "Tom Ford", price: "$3,490", link: "#" },
-      { slot: "Bottom", name: "Matching Suit Trouser", brand: "Tom Ford", price: "$1,290", link: "#" },
-      { slot: "Shoes", name: "Leather Derby", brand: "John Lobb", price: "$1,490", link: "#" },
+      { slot: "Outerwear", name: "Cashmere Overcoat", brand: "Canali", price: "RM2,490", link: "#" },
+      { slot: "Top", name: "Wool Suit Jacket", brand: "Tom Ford", price: "RM3,490", link: "#" },
+      { slot: "Bottom", name: "Matching Suit Trouser", brand: "Tom Ford", price: "RM1,290", link: "#" },
+      { slot: "Shoes", name: "Leather Derby", brand: "John Lobb", price: "RM1,490", link: "#" },
     ],
   },
   {
@@ -616,10 +616,10 @@ export const OUTFITS: Outfit[] = [
     insight: "A technical outer layer protects investment pieces; dark palette hides rain marks.",
     confidence: 86,
     items: [
-      { slot: "Outerwear", name: "Waterproof Parka", brand: "Arc'teryx", price: "$750", link: "#" },
-      { slot: "Top", name: "Slim Suit Jacket", brand: "COS", price: "$270", link: "#" },
-      { slot: "Bottom", name: "Slim Suit Trouser", brand: "COS", price: "$150", link: "#" },
-      { slot: "Shoes", name: "Chelsea Boot", brand: "Blundstone", price: "$210", link: "#" },
+      { slot: "Outerwear", name: "Waterproof Parka", brand: "Arc'teryx", price: "RM750", link: "#" },
+      { slot: "Top", name: "Slim Suit Jacket", brand: "COS", price: "RM270", link: "#" },
+      { slot: "Bottom", name: "Slim Suit Trouser", brand: "COS", price: "RM150", link: "#" },
+      { slot: "Shoes", name: "Chelsea Boot", brand: "Blundstone", price: "RM210", link: "#" },
     ],
   },
 ];
@@ -667,7 +667,7 @@ export const COLOR_SWATCHES = [
   { name: "Sand", hex: "#d8c8a8" },
 ];
 
-export const BUDGETS = ["Under $200", "$200 – $600", "$600 – $1,500", "$1,500+"];
+export const BUDGETS = ["Under RM 200", "RM 200 – RM 600", "RM 600 – RM 1,500", "RM 1,500+"];
 
 // ---------- storage helpers (Supabase-backed) ----------
 export async function loadProfile(): Promise<Profile> {

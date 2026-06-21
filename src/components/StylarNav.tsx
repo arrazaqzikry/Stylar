@@ -52,7 +52,7 @@ const NOTIFICATIONS: Notif[] = [
   {
     id: "n7", read: true, icon: "🏷",
     title: "Price Drop Alert",
-    body: "The Church's Oxford Brogue you saved dropped by $60. Now $330 — grab it while it lasts.",
+    body: "The Church's Oxford Brogue you saved dropped by RM 60. Now RM 330 — grab it while it lasts.",
     time: "2 days ago",
   },
   {

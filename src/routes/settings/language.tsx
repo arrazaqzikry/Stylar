@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 
 export const Route = createFileRoute("/settings/language")({
-  head: () => ({ meta: [{ title: "Language — STYLAR" }] }),
+  head: () => ({ meta: [{ title: "Stylar" }] }),
   component: LanguagePage,
 });
 

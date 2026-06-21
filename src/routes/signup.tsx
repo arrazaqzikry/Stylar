@@ -5,7 +5,7 @@ import stylarLogo from "@/assets/STYLAR-NOBG.jpg";
 export const Route = createFileRoute("/signup")({
   head: () => ({
     meta: [
-      { title: "STYLAR" },
+      { title: "Stylar" },
       { name: "description", content: "Create your STYLAR personal atelier account." },
     ],
   }),

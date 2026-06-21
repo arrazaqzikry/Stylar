@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 
 export const Route = createFileRoute("/settings/saved-address")({
-  head: () => ({ meta: [{ title: "Saved Address — STYLAR" }] }),
+  head: () => ({ meta: [{ title: "Stylar" }] }),
   component: SavedAddressPage,
 });
 

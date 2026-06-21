@@ -14,7 +14,7 @@ import { StylarNav } from "@/components/StylarNav";
 export const Route = createFileRoute("/onboarding")({
   head: () => ({
     meta: [
-      { title: "Your Atelier Profile — STYLAR" },
+      { title: "Stylar" },
       {
         name: "description",
         content: "Compose your private style profile so Stylar can dress you with precision.",

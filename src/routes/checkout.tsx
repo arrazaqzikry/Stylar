@@ -1,10 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import top1 from "@/FashionAsset/top/top-1.jpg";
+import trousers1 from "@/FashionAsset/trousers/trousers-1.jpg";
+import shoes1 from "@/FashionAsset/shoes/shoes-1.avif";
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({
     meta: [
-      { title: "Checkout — STYLAR" },
+      { title: "Stylar" },
       { name: "description", content: "Complete your order." },
     ],
   }),
@@ -12,9 +15,9 @@ export const Route = createFileRoute("/checkout")({
 });
 
 const ORDER_ITEMS = [
-  { id: 1, name: "Merino Blend Crewneck", brand: "Uniqlo", price: 59, bg: "#2b2d31" },
-  { id: 2, name: "Slim Straight Chino", brand: "COS", price: 89, bg: "#c8bca8" },
-  { id: 3, name: "Leather Low Trainer", brand: "Veja", price: 160, bg: "#f1ece2" },
+  { id: 1, name: "Merino Blend Crewneck", brand: "Uniqlo", price: 59, img: top1 },
+  { id: 2, name: "Slim Straight Chino", brand: "COS", price: 89, img: trousers1 },
+  { id: 3, name: "Leather Low Trainer", brand: "Veja", price: 160, img: shoes1 },
 ];
 
 const PAYMENT_METHODS = [
@@ -32,7 +35,7 @@ function CheckoutPage() {
 
   const subtotal = ORDER_ITEMS.reduce((s, i) => s + i.price, 0);
   const shipping = 0;
-  const tax = Math.round(subtotal * 0.08875);
+  const tax = Math.round(subtotal * 0.06);
   const discount = promoApplied ? Math.round(subtotal * 0.1) : 0;
   const total = subtotal + shipping + tax - discount;
 
@@ -170,15 +173,14 @@ function CheckoutPage() {
         <div className="space-y-3">
           {ORDER_ITEMS.map((item) => (
             <div key={item.id} className="flex items-center gap-3">
-              <div
-                className="h-12 w-12 flex-shrink-0 border border-border"
-                style={{ backgroundColor: item.bg }}
-              />
+              <div className="h-12 w-12 flex-shrink-0 border border-border overflow-hidden">
+                <img src={item.img} alt={item.name} className="h-full w-full object-cover" />
+              </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-foreground truncate">{item.name}</p>
                 <p className="text-[10px] text-muted-foreground">{item.brand}</p>
               </div>
-              <span className="font-mono text-sm flex-shrink-0">${item.price}</span>
+              <span className="font-mono text-sm flex-shrink-0">RM {item.price}</span>
             </div>
           ))}
         </div>
@@ -222,7 +224,7 @@ function CheckoutPage() {
       <section className="px-5 py-5 border-b border-border space-y-2">
         <div className="flex items-center justify-between">
           <span className="text-xs text-muted-foreground">Subtotal</span>
-          <span className="font-mono text-sm">${subtotal}</span>
+          <span className="font-mono text-sm">RM {subtotal}</span>
         </div>
         <div className="flex items-center justify-between">
           <span className="text-xs text-muted-foreground">Shipping</span>
@@ -231,16 +233,16 @@ function CheckoutPage() {
         {promoApplied && (
           <div className="flex items-center justify-between">
             <span className="text-xs text-muted-foreground">Discount (10%)</span>
-            <span className="font-mono text-sm" style={{ color: "var(--gold)" }}>–${discount}</span>
+            <span className="font-mono text-sm" style={{ color: "var(--gold)" }}>–RM {discount}</span>
           </div>
         )}
         <div className="flex items-center justify-between">
-          <span className="text-xs text-muted-foreground">Tax (8.875%)</span>
-          <span className="font-mono text-sm">${tax}</span>
+          <span className="text-xs text-muted-foreground">SST (6%)</span>
+          <span className="font-mono text-sm">RM {tax}</span>
         </div>
         <div className="flex items-center justify-between pt-2 border-t border-border">
           <span className="eyebrow text-[10px]">Total</span>
-          <span className="font-mono text-base font-medium">${total}</span>
+          <span className="font-mono text-base font-medium">RM {total}</span>
         </div>
       </section>
 
@@ -251,7 +253,7 @@ function CheckoutPage() {
           onClick={() => setPlaced(true)}
           className="eyebrow w-full border border-foreground bg-foreground py-4 text-xs text-primary-foreground transition-colors hover:bg-gold hover:border-gold hover:text-background"
         >
-          Place Order · ${total}
+          Place Order · RM {total}
         </button>
         <p className="text-[10px] text-muted-foreground text-center mt-3 leading-relaxed">
           Your order is protected by STYLAR's Secure Checkout.<br />

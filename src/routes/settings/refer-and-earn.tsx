@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 
 export const Route = createFileRoute("/settings/refer-and-earn")({
-  head: () => ({ meta: [{ title: "Refer & Earn — STYLAR" }] }),
+  head: () => ({ meta: [{ title: "Stylar" }] }),
   component: ReferAndEarnPage,
 });
 
@@ -10,7 +10,7 @@ const REFERRAL_CODE = "DASHA20";
 const STEPS = [
   { num: 1, title: "Share your code", desc: "Send your unique referral code to a friend." },
   { num: 2, title: "They join STYLAR", desc: "Your friend signs up using your code." },
-  { num: 3, title: "Both earn rewards", desc: "You get $20 credit. They get 20% off their first order." },
+  { num: 3, title: "Both earn rewards", desc: "You get RM 20 credit. They get 20% off their first order." },
 ];
 
 function ReferAndEarnPage() {
@@ -39,7 +39,7 @@ function ReferAndEarnPage() {
           style={{ borderColor: "var(--gold)30", background: "var(--gold)08" }}
         >
           <p className="eyebrow text-[9px] mb-1">Your Reward</p>
-          <p className="font-display text-4xl text-gold leading-none mb-1">$20</p>
+          <p className="font-display text-4xl text-gold leading-none mb-1">RM 20</p>
           <p className="text-xs text-muted-foreground">per successful referral</p>
         </div>
 
@@ -95,7 +95,7 @@ function ReferAndEarnPage() {
               <p className="eyebrow text-[8px] mt-1">Joined</p>
             </div>
             <div>
-              <p className="font-display text-2xl text-gold">$20</p>
+              <p className="font-display text-2xl text-gold">RM 20</p>
               <p className="eyebrow text-[8px] mt-1">Earned</p>
             </div>
           </div>
