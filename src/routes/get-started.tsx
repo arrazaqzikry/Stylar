@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import stylarLogo from "@/assets/STYLAR-NOBG.jpg";
+import getStartedPic from "@/assets/getstarted.jpg";
 
 export const Route = createFileRoute("/get-started")({
   head: () => ({
@@ -14,38 +15,43 @@ export const Route = createFileRoute("/get-started")({
 function GetStartedPage() {
   return (
     <div className="h-full flex flex-col items-center justify-between px-6 py-8 overflow-hidden">
+      {/* Top left logo */}
+      <div className="w-full flex items-center gap-2 mb-4">
+        <img src={stylarLogo} alt="STYLAR" className="h-8 w-8 object-contain" />
+        <span className="font-display text-sm tracking-[0.3em]">STYLAR</span>
+      </div>
+
       {/* Center content */}
-      <div className="flex-1 flex flex-col items-center justify-center w-full">
-        {/* Logo */}
-        <div className="flex flex-col items-center gap-4 mb-10">
-          <div className="relative">
-            <div className="h-20 w-20 rounded-full border border-gold/30 bg-secondary flex items-center justify-center shadow-[0_0_50px_rgba(180,150,80,0.15)]">
-              <img src={stylarLogo} alt="STYLAR" className="h-14 w-14 object-contain" />
-            </div>
-            <span className="absolute -bottom-1 -right-1 h-3.5 w-3.5 rounded-full bg-gold border-2 border-background" />
-          </div>
-          <div className="text-center">
-            <p className="eyebrow text-[9px] text-muted-foreground mb-1">Personal Atelier</p>
-            <h1 className="font-display text-[2.2rem] tracking-[0.3em] leading-none">STYLAR</h1>
-          </div>
+      <div className="flex-1 flex flex-col items-center justify-center w-full gap-6">
+        {/* Hero image */}
+        <div className="w-full max-w-[240px] aspect-[3/4] overflow-hidden rounded-sm">
+          <img src={getStartedPic} alt="Get Started" className="w-full h-full object-cover" />
         </div>
 
         {/* Tagline */}
-        <div className="text-center max-w-[240px] space-y-2.5">
-          <p className="font-display text-[1.1rem] leading-snug text-foreground">
-            Your wardrobe,<br />reimagined by AI.
-          </p>
-          <p className="text-[11px] text-muted-foreground leading-relaxed">
-            Curated outfits, generated looks, and a wardrobe that's unmistakably yours.
+        <div className="text-center max-w-[320px] space-y-4">
+          <h2 className="font-display text-[1.9rem] leading-tight text-foreground">
+            Find Your Style in a Click
+          </h2>
+          <p className="text-[12px] text-muted-foreground leading-relaxed">
+            Stylar builds your outfit for you and lets you shop the missing pieces instantly in just one tap.
           </p>
         </div>
 
-        {/* Feature pills */}
-        <div className="flex flex-wrap justify-center gap-2 mt-7">
-          {["AI Outfit Generation", "Personal Taste Engine", "Style Curation"].map((f) => (
-            <span key={f} className="eyebrow text-[8px] border border-gold/25 px-3 py-1.5 text-muted-foreground">
-              {f}
-            </span>
+        {/* Feature boxes */}
+        <div className="w-full grid grid-cols-3 gap-2">
+          {[
+            { title: "AI Outfit", sub: "Generation" },
+            { title: "Personal", sub: "Taste Engine" },
+            { title: "Instant", sub: "Checkout" },
+          ].map((f) => (
+            <div
+              key={f.title}
+              className="border border-gold/25 px-2 py-3 flex flex-col items-center gap-1 text-center"
+            >
+              <span className="eyebrow text-[8px] tracking-widest text-gold">{f.title}</span>
+              <span className="eyebrow text-[8px] tracking-widest text-muted-foreground">{f.sub}</span>
+            </div>
           ))}
         </div>
       </div>

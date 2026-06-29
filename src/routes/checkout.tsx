@@ -1,8 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import top1 from "@/FashionAsset/top/top-1.jpg";
-import trousers1 from "@/FashionAsset/trousers/trousers-1.jpg";
-import shoes1 from "@/FashionAsset/shoes/shoes-1.avif";
+
+const _elMods = import.meta.glob("../../Element/**/*.{jpg,jpeg,webp,avif,png}", { eager: true }) as Record<string, { default: string }>;
+const ELEMENT_IMAGE_POOL: string[] = Object.values(_elMods).map((m) => m.default);
+function pickElement(seed: string): string {
+  if (!ELEMENT_IMAGE_POOL.length) return "";
+  const hash = seed.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  return ELEMENT_IMAGE_POOL[Math.abs(hash) % ELEMENT_IMAGE_POOL.length];
+}
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({
@@ -15,9 +20,9 @@ export const Route = createFileRoute("/checkout")({
 });
 
 const ORDER_ITEMS = [
-  { id: 1, name: "Merino Blend Crewneck", brand: "Uniqlo", price: 59, img: top1 },
-  { id: 2, name: "Slim Straight Chino", brand: "COS", price: 89, img: trousers1 },
-  { id: 3, name: "Leather Low Trainer", brand: "Veja", price: 160, img: shoes1 },
+  { id: 1, name: "Merino Blend Crewneck", brand: "Uniqlo", price: 59, img: pickElement("cart-merino-crewneck") },
+  { id: 2, name: "Slim Straight Chino", brand: "COS", price: 89, img: pickElement("cart-slim-chino") },
+  { id: 3, name: "Leather Low Trainer", brand: "Veja", price: 160, img: pickElement("cart-leather-trainer") },
 ];
 
 const PAYMENT_METHODS = [

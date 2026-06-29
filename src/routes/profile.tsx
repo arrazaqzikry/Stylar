@@ -4,10 +4,6 @@ import { createPortal } from "react-dom";
 import { StylarNav } from "@/components/StylarNav";
 import { OUTFITS, type Outfit } from "@/lib/stylar";
 import dtPhoto from "@/FashionAsset/DT.webp";
-// Saved looks
-import fi3 from "@/FashionAsset/FI-3.avif";
-import fi7 from "@/FashionAsset/FI-7.webp";
-import fi11 from "@/FashionAsset/FI-11.jpg";
 // Wardrobe looks
 import fi1 from "@/FashionAsset/FI-1.jpg";
 import fi4 from "@/FashionAsset/FI-4.jpg";
@@ -22,17 +18,22 @@ import fi24 from "@/FashionAsset/FI-24.jpg";
 import fi14 from "@/FashionAsset/FI-14.jpg";
 import fi18 from "@/FashionAsset/FI-18.jpg";
 import fi23 from "@/FashionAsset/FI-23.jpg";
-// Cart & purchase history slot images
-import top1 from "@/FashionAsset/top/top-1.jpg";
-import top2 from "@/FashionAsset/top/top-2.avif";
-import trousers1 from "@/FashionAsset/trousers/trousers-1.jpg";
-import trousers2 from "@/FashionAsset/trousers/trousers-2.webp";
-import trousers3 from "@/FashionAsset/trousers/trousers-3.webp";
-import shoes1 from "@/FashionAsset/shoes/shoes-1.avif";
-import shoes2 from "@/FashionAsset/shoes/shoes-2.jpg";
-import shoes3 from "@/FashionAsset/shoes/shoes-3.jpg";
 
-const SAVED_LOOK_IMAGES = [fi3, fi7, fi11];
+// Element image pool — random picks for cart & purchase history
+const _elMods = import.meta.glob("../../Element/**/*.{jpg,jpeg,webp,avif,png}", { eager: true }) as Record<string, { default: string }>;
+const ELEMENT_IMAGE_POOL: string[] = Object.values(_elMods).map((m) => m.default);
+function pickElement(seed: string): string {
+  if (!ELEMENT_IMAGE_POOL.length) return "";
+  const hash = seed.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  return ELEMENT_IMAGE_POOL[Math.abs(hash) % ELEMENT_IMAGE_POOL.length];
+}
+
+// FashionAsset FI pool — for liked looks
+const FI_POOL = [fi1, fi4, fi6, fi8, fi13, fi16, fi19, fi22, fi24];
+function pickFI(seed: string): string {
+  const hash = seed.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  return FI_POOL[Math.abs(hash) % FI_POOL.length];
+}
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
@@ -49,9 +50,9 @@ const SAVED_LOOKS = OUTFITS.filter((o) =>
 );
 
 const CART_ITEMS = [
-  { id: 1, name: "Merino Blend Crewneck", brand: "Uniqlo", price: "RM 59", img: top1 },
-  { id: 2, name: "Slim Straight Chino", brand: "COS", price: "RM 89", img: trousers1 },
-  { id: 3, name: "Leather Low Trainer", brand: "Veja", price: "RM 160", img: shoes1 },
+  { id: 1, name: "Merino Blend Crewneck", brand: "Uniqlo", price: "RM 59", img: pickElement("cart-merino-crewneck") },
+  { id: 2, name: "Slim Straight Chino", brand: "COS", price: "RM 89", img: pickElement("cart-slim-chino") },
+  { id: 3, name: "Leather Low Trainer", brand: "Veja", price: "RM 160", img: pickElement("cart-leather-trainer") },
 ];
 
 const WARDROBE_EDITS = ["Evening", "Office", "Weekend", "Travel", "Ceremony"];
@@ -76,7 +77,7 @@ const WARDROBE_LOOKS: Record<string, WardrobeLook[]> = {
     { img: fi22, title: "Wet Weekend", desc: "Technical meets minimal — rain-ready without the bulk.", category: "Casual" },
   ],
   ceremony: [
-    { img: fi11, title: "Garden Ceremony", desc: "Soft florals and airy silhouettes — ceremony dressing that moves.", category: "Formal" },
+    { img: pickFI("wardrobe-ceremony-garden"), title: "Garden Ceremony", desc: "Soft florals and airy silhouettes — ceremony dressing that moves.", category: "Formal" },
     { img: fi24, title: "Ivory Occasion", desc: "Understated luxury in ivory and cream — the quiet confidence of occasion dressing.", category: "Luxury" },
   ],
 };
@@ -100,9 +101,9 @@ const PURCHASE_HISTORY: PurchaseOrder[] = [
     date: "Jun 15, 2026",
     total: "RM 308",
     items: [
-      { name: "Leather Low Trainer", brand: "Veja", price: "RM 160", type: "Shoes", img: shoes1 },
-      { name: "Slim Straight Chino", brand: "COS", price: "RM 89", type: "Bottom", img: trousers1 },
-      { name: "Merino Crewneck", brand: "Uniqlo", price: "RM 59", type: "Top", img: top1 },
+      { name: "Leather Low Trainer", brand: "Veja", price: "RM 160", type: "Shoes", img: pickElement("ord001-shoes-veja") },
+      { name: "Slim Straight Chino", brand: "COS", price: "RM 89", type: "Bottom", img: pickElement("ord001-chino-cos") },
+      { name: "Merino Crewneck", brand: "Uniqlo", price: "RM 59", type: "Top", img: pickElement("ord001-crewneck-uniqlo") },
     ],
   },
   {
@@ -110,8 +111,8 @@ const PURCHASE_HISTORY: PurchaseOrder[] = [
     date: "May 28, 2026",
     total: "RM 520",
     items: [
-      { name: "Oxford Brogue", brand: "Church's", price: "RM 390", type: "Shoes", img: shoes2 },
-      { name: "Tailored Trouser", brand: "COS", price: "RM 130", type: "Bottom", img: trousers2 },
+      { name: "Oxford Brogue", brand: "Church's", price: "RM 390", type: "Shoes", img: pickElement("ord002-brogue-churchs") },
+      { name: "Tailored Trouser", brand: "COS", price: "RM 130", type: "Bottom", img: pickElement("ord002-trouser-cos") },
     ],
   },
   {
@@ -119,9 +120,9 @@ const PURCHASE_HISTORY: PurchaseOrder[] = [
     date: "May 10, 2026",
     total: "RM 1,150",
     items: [
-      { name: "Strappy Sandal", brand: "By Far", price: "RM 380", type: "Shoes", img: shoes3 },
-      { name: "Bias Silk Skirt", brand: "Anine Bing", price: "RM 390", type: "Bottom", img: trousers3 },
-      { name: "Single-Button Blazer", brand: "Saint Laurent", price: "RM 380", type: "Top", img: top2 },
+      { name: "Strappy Sandal", brand: "By Far", price: "RM 380", type: "Shoes", img: pickElement("ord003-sandal-byfar") },
+      { name: "Bias Silk Skirt", brand: "Anine Bing", price: "RM 390", type: "Bottom", img: pickElement("ord003-skirt-aninebing") },
+      { name: "Single-Button Blazer", brand: "Saint Laurent", price: "RM 380", type: "Top", img: pickElement("ord003-blazer-saintlaurent") },
     ],
   },
 ];
@@ -239,12 +240,18 @@ function ProfilePage() {
           <p className="text-xs text-muted-foreground">{profileForm.bio}</p>
         </div>
 
-        {/* Social connections */}
-        <div className="flex gap-2 mt-4">
-          <SocialBtn platform="instagram" />
-          <SocialBtn platform="twitter" />
-          <SocialBtn platform="threads" />
-          <SocialBtn platform="facebook" />
+        {/* Style tags + Social connections */}
+        <div className="mt-4">
+          <div className="flex gap-2 mb-2.5">
+            <span className="border border-gold/40 px-2.5 py-0.5 eyebrow text-[9px] text-gold">Minimalist</span>
+            <span className="border border-gold/40 px-2.5 py-0.5 eyebrow text-[9px] text-gold">Luxury</span>
+          </div>
+          <div className="flex gap-2">
+            <SocialBtn platform="instagram" />
+            <SocialBtn platform="twitter" />
+            <SocialBtn platform="threads" />
+            <SocialBtn platform="facebook" />
+          </div>
         </div>
 
         {/* CTA buttons */}
@@ -296,29 +303,17 @@ function ProfilePage() {
         </div>
       </div>
 
-      {/* ── Style direction ── */}
-      <div className="border-t border-border px-5 py-4">
-        <p className="eyebrow mb-3">Style Direction</p>
-        <div className="flex flex-wrap gap-2">
-          {["Minimalist", "Luxury", "Elevated Basics", "Tonal"].map((tag) => (
-            <span key={tag} className="border border-gold/40 px-3 py-1 text-[10px] eyebrow text-gold">
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* ── Saved looks grid ── */}
+      {/* ── Liked looks grid ── */}
       <div className="border-t border-border px-5 py-4">
         <div className="flex items-center justify-between mb-3">
-          <p className="eyebrow">Saved Looks</p>
+          <p className="eyebrow">Liked Looks</p>
           <Link to="/saved" className="eyebrow text-gold hover:opacity-70 text-[10px]">
             Explore →
           </Link>
         </div>
         <div className="grid grid-cols-3 gap-1.5">
-          {SAVED_LOOKS.map((outfit, i) => {
-            const img = SAVED_LOOK_IMAGES[i % SAVED_LOOK_IMAGES.length];
+          {SAVED_LOOKS.map((outfit) => {
+            const img = pickFI(outfit.id + "liked");
             return (
               <button
                 type="button"
@@ -594,21 +589,23 @@ function ProfilePage() {
             </button>
             <h2 className="font-display text-lg capitalize">{openWardrobe}</h2>
           </div>
-          <div className="px-4 pt-4 pb-10 space-y-5">
-            {(WARDROBE_LOOKS[openWardrobe] ?? []).map((look) => (
-              <div key={look.title} className="border border-border overflow-hidden">
-                <div className="aspect-[3/4] w-full overflow-hidden">
-                  <img src={look.img} alt={look.title} className="h-full w-full object-cover" />
+          <div className="px-3 pt-4 pb-10">
+            <div className="grid grid-cols-2 gap-2.5">
+              {(WARDROBE_LOOKS[openWardrobe] ?? []).map((look, i) => (
+                <div key={look.title} className="flex flex-col gap-2">
+                  <div className={`overflow-hidden ${i % 2 === 0 ? "aspect-[3/4]" : "aspect-[4/5]"}`}>
+                    <img src={look.img} alt={look.title} className="h-full w-full object-cover" />
+                  </div>
+                  <div className="space-y-1 pb-1">
+                    <span className="eyebrow text-[7px] border border-gold/40 text-gold px-1.5 py-0.5">
+                      {look.category}
+                    </span>
+                    <p className="font-display text-sm leading-tight">{look.title}</p>
+                    <p className="text-[10px] text-muted-foreground leading-relaxed line-clamp-2">{look.desc}</p>
+                  </div>
                 </div>
-                <div className="px-4 py-4 space-y-2">
-                  <span className="eyebrow text-[7px] border border-gold/40 text-gold px-1.5 py-0.5">
-                    {look.category}
-                  </span>
-                  <p className="font-display text-xl leading-tight">{look.title}</p>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{look.desc}</p>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>,
         phoneScreen,

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect, useRef, useMemo } from "react";
+import { createPortal } from "react-dom";
 import { StylarNav } from "@/components/StylarNav";
 import { OUTFITS, type Outfit, type OutfitItem, type Category } from "@/lib/stylar";
 // Slot images for piece cards
@@ -100,11 +101,22 @@ function MockOutfitImage({ outfitId }: { outfitId: string }) {
 
 /* ── Main For You page ─────────────────────────────────────── */
 
+const WARDROBE_OPTIONS = [
+  { key: "evening",  label: "Evening",  sub: "After-dark events & dinners" },
+  { key: "office",   label: "Office",   sub: "Work days & business settings" },
+  { key: "weekend",  label: "Weekend",  sub: "Casual outings & relaxed days" },
+  { key: "travel",   label: "Travel",   sub: "Airport looks & city exploring" },
+  { key: "ceremony", label: "Ceremony", sub: "Special occasions & celebrations" },
+];
+
 function ForYouPage() {
   const [liked, setLiked] = useState<Set<string>>(new Set());
   const [selected, setSelected] = useState<Outfit | null>(null);
   const [activeTab, setActiveTab] = useState<StyleTab>("All");
   const [loadingMore, setLoadingMore] = useState(false);
+  const [wardrobePrompt, setWardrobePrompt] = useState<string | null>(null);
+  const [wardrobeSelections, setWardrobeSelections] = useState<Set<string>>(new Set());
+  const [phoneScreen, setPhoneScreen] = useState<Element | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
 
   function handleLoadMore() {
@@ -116,6 +128,7 @@ function ForYouPage() {
   useEffect(() => {
     const el = document.querySelector(".phone-content") as HTMLDivElement | null;
     contentRef.current = el;
+    setPhoneScreen(document.querySelector(".phone-screen"));
   }, []);
 
   const filteredOutfits = useMemo(() => {
@@ -136,10 +149,27 @@ function ForYouPage() {
 
   function toggleLike(id: string, e?: React.MouseEvent) {
     e?.stopPropagation();
-    setLiked((prev) => {
-      const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
-      return next;
+    if (liked.has(id)) {
+      setLiked((prev) => { const n = new Set(prev); n.delete(id); return n; });
+    } else {
+      setWardrobePrompt(id);
+      setWardrobeSelections(new Set());
+    }
+  }
+
+  function handleWardrobeDone() {
+    if (wardrobePrompt) {
+      setLiked((prev) => new Set([...prev, wardrobePrompt]));
+    }
+    setWardrobePrompt(null);
+    setWardrobeSelections(new Set());
+  }
+
+  function toggleWardrobeOption(key: string) {
+    setWardrobeSelections((prev) => {
+      const n = new Set(prev);
+      n.has(key) ? n.delete(key) : n.add(key);
+      return n;
     });
   }
 
@@ -274,6 +304,74 @@ function ForYouPage() {
           )}
         </div>
       </div>
+
+      {/* Wardrobe selection popup */}
+      {wardrobePrompt && phoneScreen && createPortal(
+        <div className="absolute inset-0 z-[9999] flex flex-col justify-end" style={{ background: "rgba(0,0,0,0.45)" }}>
+          <div className="bg-background border-t border-border px-5 pt-5 pb-8 animate-fade-up">
+            {/* Handle bar */}
+            <div className="flex justify-center mb-4">
+              <div className="w-8 h-0.5 rounded-full bg-border" />
+            </div>
+
+            <p className="font-display text-base mb-0.5">Save to Wardrobe</p>
+            <p className="eyebrow text-[9px] text-muted-foreground mb-4 leading-relaxed">
+              Choose occasions to use this look as inspiration — or skip and just like it.
+            </p>
+
+            <div className="flex flex-col gap-2 mb-5">
+              {WARDROBE_OPTIONS.map((opt) => {
+                const selected = wardrobeSelections.has(opt.key);
+                return (
+                  <button
+                    key={opt.key}
+                    type="button"
+                    onClick={() => toggleWardrobeOption(opt.key)}
+                    className="flex items-center justify-between w-full px-3.5 py-2.5 border text-left transition-colors"
+                    style={{
+                      borderColor: selected ? "var(--gold)" : "var(--border)",
+                      background: selected ? "oklch(0.78 0.11 82 / 0.07)" : "transparent",
+                    }}
+                  >
+                    <div>
+                      <p className="eyebrow text-[10px]" style={{ color: selected ? "var(--gold)" : "var(--foreground)" }}>{opt.label}</p>
+                      <p className="eyebrow text-[8px] text-muted-foreground mt-0.5">{opt.sub}</p>
+                    </div>
+                    <div
+                      className="h-4 w-4 border flex items-center justify-center flex-shrink-0"
+                      style={{ borderColor: selected ? "var(--gold)" : "var(--border)" }}
+                    >
+                      {selected && (
+                        <svg width="8" height="8" viewBox="0 0 10 10" fill="none">
+                          <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <button
+                type="button"
+                onClick={handleWardrobeDone}
+                className="eyebrow w-full py-3 text-[10px] bg-foreground text-background hover:bg-gold hover:text-background transition-colors"
+              >
+                {wardrobeSelections.size > 0 ? `Save to ${wardrobeSelections.size} Wardrobe${wardrobeSelections.size > 1 ? "s" : ""}` : "Done"}
+              </button>
+              <button
+                type="button"
+                onClick={handleWardrobeDone}
+                className="eyebrow w-full py-2.5 text-[9px] text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Like without saving
+              </button>
+            </div>
+          </div>
+        </div>,
+        phoneScreen,
+      )}
     </div>
   );
 }
