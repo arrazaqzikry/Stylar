@@ -13,6 +13,7 @@ import {
   type GenStyle,
   type GenStyleLevel,
 } from "@/lib/stylar";
+import { addToCart, removeFromCartByName, isInCart } from "@/lib/cart-store";
 import top1 from "@/FashionAsset/top/top-1.jpg";
 import top2 from "@/FashionAsset/top/top-2.avif";
 import top3 from "@/FashionAsset/top/top-3.jpg";
@@ -397,19 +398,22 @@ function Studio() {
   const [error, setError]         = useState<string | null>(null);
 
   const [toast, setToast]         = useState(false);
+  const [shopAllState, setShopAllState] = useState<"idle" | "added">("idle");
   const [phoneScreen, setPhoneScreen] = useState<Element | null>(null);
 
-  const intervalRef  = useRef<ReturnType<typeof setInterval> | null>(null);
-  const toastTimer   = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const resultRef    = useRef<HTMLDivElement | null>(null);
-  const contentRef   = useRef<HTMLDivElement | null>(null);
+  const intervalRef    = useRef<ReturnType<typeof setInterval> | null>(null);
+  const toastTimer     = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const shopAllTimer   = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const resultRef      = useRef<HTMLDivElement | null>(null);
+  const contentRef     = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setPhoneScreen(document.querySelector(".phone-screen"));
     contentRef.current = document.querySelector(".phone-content") as HTMLDivElement | null;
     return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      if (toastTimer.current)  clearTimeout(toastTimer.current);
+      if (intervalRef.current)  clearInterval(intervalRef.current);
+      if (toastTimer.current)   clearTimeout(toastTimer.current);
+      if (shopAllTimer.current) clearTimeout(shopAllTimer.current);
     };
   }, []);
 
@@ -424,6 +428,21 @@ function Studio() {
     if (toastTimer.current) clearTimeout(toastTimer.current);
     setToast(true);
     toastTimer.current = setTimeout(() => setToast(false), 2000);
+  }
+
+  function handleShopAll() {
+    if (!outfit) return;
+    getShopItems(outfit, style).forEach((item) => {
+      if (!isInCart(item.name, item.brand)) {
+        const pool = SLOT_IMAGES[item.slot] ?? SLOT_IMAGES.Top;
+        const hash = item.name.split("").reduce((acc: number, c: string) => acc + c.charCodeAt(0), 0);
+        addToCart({ name: item.name, brand: item.brand, price: item.price, img: item.image ?? pool[hash % pool.length] });
+      }
+    });
+    setShopAllState("added");
+    showToast();
+    if (shopAllTimer.current) clearTimeout(shopAllTimer.current);
+    shopAllTimer.current = setTimeout(() => setShopAllState("idle"), 2500);
   }
 
   async function handleGenerate() {
@@ -474,7 +493,7 @@ function Studio() {
         >
           <div className="bg-foreground text-primary-foreground px-5 py-3 flex items-center gap-2.5 shadow-2xl animate-fade-up">
             <span style={{ color: "var(--gold)" }}>✓</span>
-            <span className="eyebrow text-[10px]">Added to basket</span>
+            <span className="eyebrow text-[10px]">Added to cart</span>
           </div>
         </div>,
         phoneScreen,
@@ -597,15 +616,29 @@ function Studio() {
 
           {/* SHOP THE LOOK */}
           <section className="px-5 pb-10">
-            <div className="hairline pt-6 mb-6">
-              <p className="eyebrow">Shop the Look</p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                Each piece curated to complete this edit.
-              </p>
+            <div className="hairline pt-6 mb-6 flex items-end justify-between gap-4">
+              <div>
+                <p className="eyebrow">Shop the Look</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Each piece curated to complete this edit.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={handleShopAll}
+                className="eyebrow text-[9px] border px-3.5 py-2 transition-all flex-shrink-0 active:scale-95"
+                style={{
+                  borderColor: shopAllState === "added" ? "var(--gold)" : "var(--border)",
+                  color: shopAllState === "added" ? "var(--gold)" : "var(--muted-foreground)",
+                  background: shopAllState === "added" ? "oklch(0.78 0.11 82 / 0.08)" : "transparent",
+                }}
+              >
+                {shopAllState === "added" ? "✓ All added" : "Add All"}
+              </button>
             </div>
             <div className="grid grid-cols-2 gap-3">
               {getShopItems(outfit, style).map((item) => (
-                <ShopItemCard key={`${item.slot}-${item.brand}`} item={item} onAddToBasket={showToast} />
+                <ShopItemCard key={`${item.slot}-${item.brand}`} item={item} onAddToCart={showToast} />
               ))}
             </div>
           </section>
@@ -626,15 +659,15 @@ function Studio() {
   );
 }
 
-function ShopItemCard({ item, onAddToBasket }: { item: ShopItem; onAddToBasket?: () => void }) {
-  const [inBasket, setInBasket] = useState(false);
-
+function ShopItemCard({ item, onAddToCart }: { item: ShopItem; onAddToCart?: () => void }) {
   const slotImage = useMemo(() => {
     if (item.image) return item.image;
     const pool = SLOT_IMAGES[item.slot] ?? SLOT_IMAGES.Top;
     const hash = item.name.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
     return pool[hash % pool.length];
   }, [item.slot, item.name, item.image]);
+
+  const [inCart, setInCart] = useState(() => isInCart(item.name, item.brand));
 
   return (
     <div className="border border-border flex flex-col">
@@ -655,33 +688,28 @@ function ShopItemCard({ item, onAddToBasket }: { item: ShopItem; onAddToBasket?:
 
         <div className="flex items-center justify-between mt-auto">
           <span className="font-mono text-xs text-foreground">{item.price}</span>
-          <a
-            href="#"
-            onClick={(e) => e.preventDefault()}
-            className="eyebrow text-[9px] text-gold hover:opacity-70 transition-opacity"
-          >
-            Checkout →
-          </a>
         </div>
 
         <button
           type="button"
           onClick={() => {
-            if (!inBasket) {
-              setInBasket(true);
-              onAddToBasket?.();
+            if (!inCart) {
+              addToCart({ name: item.name, brand: item.brand, price: item.price, img: slotImage });
+              setInCart(true);
+              onAddToCart?.();
             } else {
-              setInBasket(false);
+              removeFromCartByName(item.name, item.brand);
+              setInCart(false);
             }
           }}
           className="eyebrow text-[9px] w-full py-2 border transition-all"
           style={{
-            borderColor: inBasket ? "var(--gold)" : "var(--border)",
-            color: inBasket ? "var(--gold)" : "var(--muted-foreground)",
-            backgroundColor: inBasket ? "var(--gold)15" : "transparent",
+            borderColor: inCart ? "var(--gold)" : "var(--border)",
+            color: inCart ? "var(--gold)" : "var(--muted-foreground)",
+            backgroundColor: inCart ? "var(--gold)15" : "transparent",
           }}
         >
-          {inBasket ? "✓ In basket" : "+ Add to basket"}
+          {inCart ? "✓ In cart" : "+ Add to cart"}
         </button>
       </div>
     </div>

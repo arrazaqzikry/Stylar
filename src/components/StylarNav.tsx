@@ -1,6 +1,20 @@
 import { Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
+
+const NOTIF_READ_KEY = "stylar_notifs_read";
+function getStoredReadIds(): Set<string> {
+  try { return new Set(JSON.parse(localStorage.getItem(NOTIF_READ_KEY) ?? "[]")); }
+  catch { return new Set(); }
+}
+function persistReadId(id: string) {
+  const ids = getStoredReadIds();
+  ids.add(id);
+  localStorage.setItem(NOTIF_READ_KEY, JSON.stringify([...ids]));
+}
+function persistAllRead(ids: string[]) {
+  localStorage.setItem(NOTIF_READ_KEY, JSON.stringify(ids));
+}
 import stylarLogo from "@/assets/STYLAR-NOBG.jpg";
 
 type Notif = {
@@ -103,7 +117,10 @@ const UNREAD_COUNT = NOTIFICATIONS.filter((n) => !n.read).length;
 
 export function StylarNav() {
   const [notifOpen, setNotifOpen] = useState(false);
-  const [notifications, setNotifications] = useState(NOTIFICATIONS);
+  const [notifications, setNotifications] = useState(() => {
+    const readIds = getStoredReadIds();
+    return NOTIFICATIONS.map((n) => readIds.has(n.id) ? { ...n, read: true } : n);
+  });
   const [phoneScreen, setPhoneScreen] = useState<Element | null>(null);
 
   useEffect(() => {
@@ -113,7 +130,11 @@ export function StylarNav() {
   const unread = notifications.filter((n) => !n.read).length;
 
   function markAllRead() {
-    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+    setNotifications((prev) => {
+      const next = prev.map((n) => ({ ...n, read: true }));
+      persistAllRead(next.map((n) => n.id));
+      return next;
+    });
   }
 
   return (
@@ -128,9 +149,9 @@ export function StylarNav() {
         <div className="flex items-center gap-1">
         {/* Cart */}
         <Link
-          to="/checkout"
+          to="/cart"
           className="flex h-8 w-8 items-center justify-center text-muted-foreground hover:text-gold transition-colors"
-          aria-label="Checkout"
+          aria-label="Cart"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
@@ -195,9 +216,10 @@ export function StylarNav() {
               <div>
                 <p className="eyebrow text-[8px] text-gold/70 px-5 pt-4 pb-2">New</p>
                 {notifications.filter((n) => !n.read).map((n) => (
-                  <NotifRow key={n.id} notif={n} onPress={() =>
-                    setNotifications((prev) => prev.map((x) => x.id === n.id ? { ...x, read: true } : x))
-                  } />
+                  <NotifRow key={n.id} notif={n} onPress={() => {
+                    persistReadId(n.id);
+                    setNotifications((prev) => prev.map((x) => x.id === n.id ? { ...x, read: true } : x));
+                  }} />
                 ))}
               </div>
             )}

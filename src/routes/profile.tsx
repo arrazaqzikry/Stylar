@@ -3,17 +3,10 @@ import { useState, useEffect, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { StylarNav } from "@/components/StylarNav";
 import { OUTFITS, type Outfit } from "@/lib/stylar";
-import dtPhoto from "@/FashionAsset/DT.webp";
-// Wardrobe looks
-import fi1 from "@/FashionAsset/FI-1.jpg";
-import fi4 from "@/FashionAsset/FI-4.jpg";
-import fi6 from "@/FashionAsset/FI-6.avif";
-import fi8 from "@/FashionAsset/FI-8.avif";
-import fi13 from "@/FashionAsset/FI-13.webp";
-import fi16 from "@/FashionAsset/FI-16.jpg";
-import fi19 from "@/FashionAsset/FI-19.jpg";
-import fi22 from "@/FashionAsset/FI-22.jpg";
-import fi24 from "@/FashionAsset/FI-24.jpg";
+import { getLiked, getWardrobeMap, removeFromWardrobeStore, type WardrobeMap } from "@/lib/wardrobe-store";
+import { getCart, saveCart, type CartItem } from "@/lib/cart-store";
+import { getOutfitImage } from "@/lib/outfit-image";
+import dtPhoto from "@/FashionAsset/DT.jpg";
 // Generation history
 import fi14 from "@/FashionAsset/FI-14.jpg";
 import fi18 from "@/FashionAsset/FI-18.jpg";
@@ -28,13 +21,6 @@ function pickElement(seed: string): string {
   return ELEMENT_IMAGE_POOL[Math.abs(hash) % ELEMENT_IMAGE_POOL.length];
 }
 
-// FashionAsset FI pool — for liked looks
-const FI_POOL = [fi1, fi4, fi6, fi8, fi13, fi16, fi19, fi22, fi24];
-function pickFI(seed: string): string {
-  const hash = seed.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
-  return FI_POOL[Math.abs(hash) % FI_POOL.length];
-}
-
 export const Route = createFileRoute("/profile")({
   head: () => ({
     meta: [
@@ -45,42 +31,8 @@ export const Route = createFileRoute("/profile")({
   component: ProfilePage,
 });
 
-const SAVED_LOOKS = OUTFITS.filter((o) =>
-  ["soft-cashmere-hours", "midnight-silk", "lecture-circuit"].includes(o.id),
-);
-
-const CART_ITEMS = [
-  { id: 1, name: "Merino Blend Crewneck", brand: "Uniqlo", price: "RM 59", img: pickElement("cart-merino-crewneck") },
-  { id: 2, name: "Slim Straight Chino", brand: "COS", price: "RM 89", img: pickElement("cart-slim-chino") },
-  { id: 3, name: "Leather Low Trainer", brand: "Veja", price: "RM 160", img: pickElement("cart-leather-trainer") },
-];
 
 const WARDROBE_EDITS = ["Evening", "Office", "Weekend", "Travel", "Ceremony"];
-
-type WardrobeLook = { img: string; title: string; desc: string; category: string };
-
-const WARDROBE_LOOKS: Record<string, WardrobeLook[]> = {
-  evening: [
-    { img: fi1, title: "Riviera After Dark", desc: "Linen blazer over a silk cami and tailored shorts — resort-formal for warm evenings.", category: "Luxury" },
-    { img: fi13, title: "Midnight Silk", desc: "Structured tailoring meets liquid silk — a study in contrast.", category: "Formal" },
-  ],
-  office: [
-    { img: fi4, title: "Cool Authority", desc: "Elevated workwear anchored by a structured blazer and clean, uninterrupted lines.", category: "Business" },
-    { img: fi16, title: "Power Neutral", desc: "Tonal layering in stone and slate — boardroom-ready, effortlessly.", category: "Business" },
-  ],
-  weekend: [
-    { img: fi6, title: "Campus Ease", desc: "Soft volumes and washed tones — the weekend's starting line.", category: "Casual" },
-    { img: fi19, title: "Sunday Wardrobe", desc: "Unhurried dressing in warm ivory and sand — a soft landing.", category: "Casual" },
-  ],
-  travel: [
-    { img: fi8, title: "City Uniform", desc: "One palette, endless cities. A minimal uniform that travels without effort.", category: "Minimalist" },
-    { img: fi22, title: "Wet Weekend", desc: "Technical meets minimal — rain-ready without the bulk.", category: "Casual" },
-  ],
-  ceremony: [
-    { img: pickFI("wardrobe-ceremony-garden"), title: "Garden Ceremony", desc: "Soft florals and airy silhouettes — ceremony dressing that moves.", category: "Formal" },
-    { img: fi24, title: "Ivory Occasion", desc: "Understated luxury in ivory and cream — the quiet confidence of occasion dressing.", category: "Luxury" },
-  ],
-};
 
 const GEN_HISTORY = [
   { id: "g1", date: "Jun 20, 2026", style: "Formal", img: fi14, title: "The Evening Edit", desc: "A sharp tonal look composed for a formal dinner setting — tailored, restrained, powerful." },
@@ -161,7 +113,7 @@ const SETTINGS_GROUPS = [
 ] as const;
 
 function ProfilePage() {
-  const [cartItems, setCartItems] = useState(CART_ITEMS);
+  const [cartItems, setCartItems] = useState<CartItem[]>(getCart);
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [selectedLook, setSelectedLook] = useState<{ outfit: Outfit; img: string } | null>(null);
   const [editProfileOpen, setEditProfileOpen] = useState(false);
@@ -170,11 +122,13 @@ function ProfilePage() {
   const [openWardrobe, setOpenWardrobe] = useState<string | null>(null);
   const [selectedPurchase, setSelectedPurchase] = useState<PurchaseOrder | null>(null);
   const [phoneScreen, setPhoneScreen] = useState<Element | null>(null);
+  const [wardrobeData, setWardrobeData] = useState<WardrobeMap>(() => getWardrobeMap());
+  const [likedIds, setLikedIds] = useState<string[]>(() => getLiked());
 
   const [profileForm, setProfileForm] = useState({
-    name: "Dasha Taran",
-    username: "dashataran",
-    email: "dasha@stylar.com",
+    name: "Ariana Sofea",
+    username: "arianasofea",
+    email: "ariana@stylar.com",
     age: "24",
     height: "170 cm",
     weight: "55 kg",
@@ -189,9 +143,19 @@ function ProfilePage() {
     setPhoneScreen(document.querySelector(".phone-screen"));
   }, []);
 
+  useEffect(() => {
+    setWardrobeData(getWardrobeMap());
+    setLikedIds(getLiked());
+  }, [openWardrobe]);
+
   const cartTotal = cartItems.reduce((sum, item) => {
     return sum + parseInt(item.price.replace(/\D/g, ""), 10);
   }, 0);
+
+  function handleRemoveFromWardrobe(outfitId: string, key: string) {
+    removeFromWardrobeStore(outfitId, key);
+    setWardrobeData(getWardrobeMap());
+  }
 
   function handleSaveProfile() {
     setSaveConfirmed(true);
@@ -222,7 +186,7 @@ function ProfilePage() {
         <div className="flex items-center gap-5">
           <div className="relative flex-shrink-0">
             <div className="h-[72px] w-[72px] rounded-full border-2 border-gold/50 overflow-hidden">
-              <img src={dtPhoto} alt="Dasha Taran" className="h-full w-full object-cover object-top" />
+              <img src={dtPhoto} alt="Ariana Sofea" className="h-full w-full object-cover object-top" />
             </div>
             <span className="absolute bottom-0.5 right-0.5 h-3.5 w-3.5 rounded-full bg-gold border-2 border-background" />
           </div>
@@ -311,30 +275,38 @@ function ProfilePage() {
             Explore →
           </Link>
         </div>
-        <div className="grid grid-cols-3 gap-1.5">
-          {SAVED_LOOKS.map((outfit) => {
-            const img = pickFI(outfit.id + "liked");
-            return (
-              <button
-                type="button"
-                key={outfit.id}
-                onClick={() => setSelectedLook({ outfit, img })}
-                className="group aspect-[3/4] overflow-hidden relative block w-full"
-              >
-                <img src={img} alt={outfit.title} className="h-full w-full object-cover" />
-                <div className="absolute inset-0 bg-background/30 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </button>
-            );
-          })}
-        </div>
+        {likedIds.length === 0 ? (
+          <p className="eyebrow text-[9px] text-muted-foreground/50 py-3 text-center">
+            Like outfits on the For You page to see them here.
+          </p>
+        ) : (
+          <div className="grid grid-cols-3 gap-1.5">
+            {likedIds.map((id) => {
+              const outfit = OUTFITS.find((o) => o.id === id);
+              if (!outfit) return null;
+              const img = getOutfitImage(id);
+              return (
+                <button
+                  type="button"
+                  key={id}
+                  onClick={() => setSelectedLook({ outfit, img })}
+                  className="group aspect-[3/4] overflow-hidden relative block w-full"
+                >
+                  <img src={img} alt={outfit.title} className="h-full w-full object-cover" />
+                  <div className="absolute inset-0 bg-background/30 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* ── Cart ── */}
       <div className="border-t border-border px-5 py-4">
         <div className="flex items-center justify-between mb-3">
           <p className="eyebrow">Cart · {cartItems.length} items</p>
-          <Link to="/checkout" className="eyebrow text-gold hover:opacity-70 text-[10px]">
-            Checkout →
+          <Link to="/cart" className="eyebrow text-gold hover:opacity-70 text-[10px]">
+            View Cart →
           </Link>
         </div>
         {cartItems.length === 0 ? (
@@ -345,7 +317,7 @@ function ProfilePage() {
               {cartItems.map((item) => (
                 <div key={item.id} className="flex items-center gap-3">
                   <div className="h-11 w-11 flex-shrink-0 border border-border overflow-hidden">
-                    <img src={item.img} alt={item.name} className="h-full w-full object-cover" />
+                    <img src={item.img ?? pickElement(item.seed ?? "")} alt={item.name} className="h-full w-full object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-foreground truncate">{item.name}</p>
@@ -355,7 +327,7 @@ function ProfilePage() {
                     <p className="font-mono text-sm">{item.price}</p>
                     <button
                       type="button"
-                      onClick={() => setCartItems((prev) => prev.filter((c) => c.id !== item.id))}
+                      onClick={() => setCartItems((prev) => { const next = prev.filter((c) => c.id !== item.id); saveCart(next); return next; })}
                       className="text-[10px] text-muted-foreground hover:text-gold transition-colors"
                     >
                       Remove
@@ -369,10 +341,10 @@ function ProfilePage() {
               <span className="font-mono text-sm">RM {cartTotal}</span>
             </div>
             <Link
-              to="/checkout"
+              to="/cart"
               className="eyebrow mt-3 w-full border border-foreground bg-foreground py-2.5 text-xs text-primary-foreground transition-colors hover:bg-gold hover:border-gold hover:text-background block text-center"
             >
-              Proceed to Checkout
+              Go to Cart
             </Link>
           </>
         )}
@@ -590,22 +562,53 @@ function ProfilePage() {
             <h2 className="font-display text-lg capitalize">{openWardrobe}</h2>
           </div>
           <div className="px-3 pt-4 pb-10">
-            <div className="grid grid-cols-2 gap-2.5">
-              {(WARDROBE_LOOKS[openWardrobe] ?? []).map((look, i) => (
-                <div key={look.title} className="flex flex-col gap-2">
-                  <div className={`overflow-hidden ${i % 2 === 0 ? "aspect-[3/4]" : "aspect-[4/5]"}`}>
-                    <img src={look.img} alt={look.title} className="h-full w-full object-cover" />
-                  </div>
-                  <div className="space-y-1 pb-1">
-                    <span className="eyebrow text-[7px] border border-gold/40 text-gold px-1.5 py-0.5">
-                      {look.category}
-                    </span>
-                    <p className="font-display text-sm leading-tight">{look.title}</p>
-                    <p className="text-[10px] text-muted-foreground leading-relaxed line-clamp-2">{look.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+            {(wardrobeData[openWardrobe] ?? []).length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-16 gap-3">
+                <p className="eyebrow text-[9px] text-muted-foreground/50 text-center leading-relaxed">
+                  No looks saved here yet.{"\n"}Like outfits on the For You page and assign them to this wardrobe.
+                </p>
+                <Link
+                  to="/saved"
+                  onClick={() => setOpenWardrobe(null)}
+                  className="eyebrow text-[9px] border border-gold/40 text-gold px-4 py-2 hover:bg-gold/10 transition-colors"
+                >
+                  Browse For You →
+                </Link>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-2.5">
+                {(wardrobeData[openWardrobe] ?? []).map((outfitId, i) => {
+                  const outfit = OUTFITS.find((o) => o.id === outfitId);
+                  if (!outfit) return null;
+                  const img = getOutfitImage(outfitId);
+                  return (
+                    <div key={outfitId} className="flex flex-col gap-2">
+                      <div className={`relative overflow-hidden ${i % 2 === 0 ? "aspect-[3/4]" : "aspect-[4/5]"}`}>
+                        <img src={img} alt={outfit.title} className="h-full w-full object-cover" />
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveFromWardrobe(outfitId, openWardrobe)}
+                          className="absolute top-1.5 right-1.5 flex h-6 w-6 items-center justify-center rounded-full backdrop-blur-sm transition-all active:scale-90"
+                          style={{ background: "rgba(0,0,0,0.5)", border: "1px solid rgba(255,255,255,0.2)" }}
+                          aria-label="Remove from wardrobe"
+                        >
+                          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" strokeWidth="2.5" strokeLinecap="round">
+                            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                          </svg>
+                        </button>
+                      </div>
+                      <div className="space-y-1 pb-1">
+                        <span className="eyebrow text-[7px] border border-gold/40 text-gold px-1.5 py-0.5">
+                          {outfit.category}
+                        </span>
+                        <p className="font-display text-sm leading-tight">{outfit.title}</p>
+                        <p className="text-[10px] text-muted-foreground leading-relaxed line-clamp-2">{outfit.story}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>,
         phoneScreen,
@@ -766,11 +769,11 @@ function ProfilePage() {
                   <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
                   <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
                 </svg>
-                <span className="flex-1 font-mono text-[11px] text-muted-foreground truncate">stylar.ai/@dashataran</span>
+                <span className="flex-1 font-mono text-[11px] text-muted-foreground truncate">stylar.ai/@arianasofea</span>
                 <button
                   type="button"
                   onClick={() => {
-                    navigator.clipboard?.writeText("https://stylar.ai/@dashataran");
+                    navigator.clipboard?.writeText("https://stylar.ai/@arianasofea");
                     setCopySuccess(true);
                     setTimeout(() => setCopySuccess(false), 2000);
                   }}

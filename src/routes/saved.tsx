@@ -3,6 +3,8 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { StylarNav } from "@/components/StylarNav";
 import { OUTFITS, type Outfit, type OutfitItem, type Category } from "@/lib/stylar";
+import { getLiked, saveLiked, addToWardrobe } from "@/lib/wardrobe-store";
+import { addToCart, isInCart } from "@/lib/cart-store";
 // Slot images for piece cards
 import top1 from "@/FashionAsset/top/top-1.jpg";
 import top2 from "@/FashionAsset/top/top-2.avif";
@@ -110,7 +112,7 @@ const WARDROBE_OPTIONS = [
 ];
 
 function ForYouPage() {
-  const [liked, setLiked] = useState<Set<string>>(new Set());
+  const [liked, setLiked] = useState<Set<string>>(() => new Set(getLiked()));
   const [selected, setSelected] = useState<Outfit | null>(null);
   const [activeTab, setActiveTab] = useState<StyleTab>("All");
   const [loadingMore, setLoadingMore] = useState(false);
@@ -122,7 +124,10 @@ function ForYouPage() {
   function handleLoadMore() {
     if (loadingMore) return;
     setLoadingMore(true);
-    setTimeout(() => setLoadingMore(false), 4000);
+    setTimeout(() => {
+      setLoadingMore(false);
+      contentRef.current?.scrollTo({ top: 0, behavior: "smooth" });
+    }, 1500);
   }
 
   useEffect(() => {
@@ -150,7 +155,12 @@ function ForYouPage() {
   function toggleLike(id: string, e?: React.MouseEvent) {
     e?.stopPropagation();
     if (liked.has(id)) {
-      setLiked((prev) => { const n = new Set(prev); n.delete(id); return n; });
+      setLiked((prev) => {
+        const n = new Set(prev);
+        n.delete(id);
+        saveLiked([...n]);
+        return n;
+      });
     } else {
       setWardrobePrompt(id);
       setWardrobeSelections(new Set());
@@ -159,7 +169,15 @@ function ForYouPage() {
 
   function handleWardrobeDone() {
     if (wardrobePrompt) {
-      setLiked((prev) => new Set([...prev, wardrobePrompt]));
+      const id = wardrobePrompt;
+      setLiked((prev) => {
+        const n = new Set([...prev, id]);
+        saveLiked([...n]);
+        return n;
+      });
+      if (wardrobeSelections.size > 0) {
+        addToWardrobe(id, [...wardrobeSelections]);
+      }
     }
     setWardrobePrompt(null);
     setWardrobeSelections(new Set());
@@ -390,12 +408,23 @@ function OutfitDetailView({
   onClose: () => void;
 }) {
   const [itemLiked, setItemLiked] = useState<Set<string>>(new Set());
+  const [shopState, setShopState] = useState<"idle" | "added">("idle");
   const slotItems = getSlotItems(outfit);
 
   const outfitIdx = OUTFITS.findIndex((o) => o.id === outfit.id);
   function slotImgFor(label: string): string {
     const pool = SLOT_IMAGES[label] ?? SLOT_IMAGES.Top;
     return pool[outfitIdx % pool.length];
+  }
+
+  function handleShopLook() {
+    slotItems.forEach(({ label, item }) => {
+      if (item && !isInCart(item.name, item.brand)) {
+        addToCart({ name: item.name, brand: item.brand, price: item.price, img: slotImgFor(label) });
+      }
+    });
+    setShopState("added");
+    setTimeout(() => setShopState("idle"), 2000);
   }
 
   function toggleItemLike(label: string) {
@@ -514,6 +543,18 @@ function OutfitDetailView({
               />
             ))}
           </div>
+          <button
+            type="button"
+            onClick={handleShopLook}
+            className="eyebrow mt-3 w-full border py-3 text-[9px] transition-all active:scale-95"
+            style={{
+              borderColor: shopState === "added" ? "var(--gold)" : "var(--border)",
+              color: shopState === "added" ? "var(--gold)" : "var(--muted-foreground)",
+              background: shopState === "added" ? "oklch(0.78 0.11 82 / 0.08)" : "transparent",
+            }}
+          >
+            {shopState === "added" ? "✓ Added to cart" : "Shop the Look"}
+          </button>
         </div>
       </div>
     </div>
@@ -535,6 +576,14 @@ function PieceCard({
   liked: boolean;
   onToggleLike: () => void;
 }) {
+  const [inCart, setInCart] = useState(() => (item ? isInCart(item.name, item.brand) : false));
+
+  function handleShop() {
+    if (!item || inCart) return;
+    addToCart({ name: item.name, brand: item.brand, price: item.price, img });
+    setInCart(true);
+  }
+
   return (
     <div className="border border-border overflow-hidden">
       <div className="relative w-full aspect-square overflow-hidden">
@@ -567,13 +616,14 @@ function PieceCard({
             <p className="text-[10px] text-muted-foreground">{item.brand}</p>
             <div className="flex items-center justify-between pt-0.5">
               <span className="font-mono text-[10px]">{item.price}</span>
-              <a
-                href={item.link}
-                onClick={(e) => e.preventDefault()}
-                className="eyebrow text-[8px] text-gold hover:opacity-70 transition-opacity"
+              <button
+                type="button"
+                onClick={handleShop}
+                className="eyebrow text-[8px] transition-colors"
+                style={{ color: inCart ? "var(--gold)" : "var(--gold)", opacity: inCart ? 0.5 : 1 }}
               >
-                Shop →
-              </a>
+                {inCart ? "✓ In cart" : "Shop →"}
+              </button>
             </div>
           </>
         ) : (
