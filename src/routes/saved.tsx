@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { StylarNav } from "@/components/StylarNav";
-import { OUTFITS, type Outfit, type OutfitItem, type Category } from "@/lib/stylar";
+import { OUTFITS, type Outfit, type OutfitItem } from "@/lib/stylar";
 import { getLiked, saveLiked, addToWardrobe } from "@/lib/wardrobe-store";
 import { addToCart, isInCart } from "@/lib/cart-store";
 // Slot images for piece cards
@@ -73,17 +73,6 @@ export const Route = createFileRoute("/saved")({
 // Alternate aspect ratios for Pinterest stagger
 const ASPECTS = ["aspect-[3/4]", "aspect-[4/5]", "aspect-[3/5]", "aspect-[4/5]", "aspect-[3/4]", "aspect-[2/3]"];
 
-type StyleTab = "All" | "Daily" | "Professional" | "Big Day";
-
-const TAB_CATEGORIES: Record<StyleTab, Category[]> = {
-  All: [],
-  Daily: ["Casual", "Streetwear", "Minimalist", "Sporty"],
-  Professional: ["Business", "Formal"],
-  "Big Day": ["Luxury", "Formal"],
-};
-
-const TABS: StyleTab[] = ["All", "Daily", "Professional", "Big Day"];
-
 function getSlotItems(outfit: Outfit): { label: string; item: OutfitItem | null }[] {
   const find = (...slots: OutfitItem["slot"][]) =>
     slots.reduce<OutfitItem | null>((found, slot) => found ?? outfit.items.find((i) => i.slot === slot) ?? null, null);
@@ -114,7 +103,6 @@ const WARDROBE_OPTIONS = [
 function ForYouPage() {
   const [liked, setLiked] = useState<Set<string>>(() => new Set(getLiked()));
   const [selected, setSelected] = useState<Outfit | null>(null);
-  const [activeTab, setActiveTab] = useState<StyleTab>("All");
   const [loadingMore, setLoadingMore] = useState(false);
   const [wardrobePrompt, setWardrobePrompt] = useState<string | null>(null);
   const [wardrobeSelections, setWardrobeSelections] = useState<Set<string>>(new Set());
@@ -135,12 +123,6 @@ function ForYouPage() {
     contentRef.current = el;
     setPhoneScreen(document.querySelector(".phone-screen"));
   }, []);
-
-  const filteredOutfits = useMemo(() => {
-    const cats = TAB_CATEGORIES[activeTab];
-    if (cats.length === 0) return OUTFITS;
-    return OUTFITS.filter((o) => cats.includes(o.category));
-  }, [activeTab]);
 
   function openDetail(outfit: Outfit) {
     setSelected(outfit);
@@ -214,40 +196,10 @@ function ForYouPage() {
         </p>
       </div>
 
-      {/* Style tabs */}
-      <div className="border-b border-border bg-background/95 backdrop-blur sticky top-0 z-30">
-        <div className="flex overflow-x-auto no-scrollbar px-2">
-          {TABS.map((tab) => {
-            const active = activeTab === tab;
-            return (
-              <button
-                key={tab}
-                type="button"
-                onClick={() => {
-                  setActiveTab(tab);
-                  contentRef.current?.scrollTo({ top: 0 });
-                }}
-                className="flex-shrink-0 px-3 py-3 transition-all relative"
-              >
-                <span
-                  className="eyebrow text-[9px] transition-colors"
-                  style={{ color: active ? "var(--foreground)" : "var(--muted-foreground)" }}
-                >
-                  {tab}
-                </span>
-                {active && (
-                  <span className="absolute bottom-0 left-3 right-3 h-[1.5px] rounded-full" style={{ background: "var(--gold)" }} />
-                )}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
       {/* Pinterest masonry grid */}
       <div className="px-1.5 pt-1.5">
         <div style={{ columnCount: 2, columnGap: "6px" }}>
-          {filteredOutfits.map((outfit, i) => {
+          {OUTFITS.map((outfit, i) => {
             const isLiked = liked.has(outfit.id);
             const aspectClass = ASPECTS[i % ASPECTS.length];
 
@@ -266,7 +218,6 @@ function ForYouPage() {
                   <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/30 to-transparent" />
 
                   <div className="absolute bottom-0 left-0 right-0 px-2.5 pb-3 pointer-events-none">
-                    <p className="eyebrow text-[6.5px] text-white/55 mb-0.5">{outfit.category}</p>
                     <p className="font-display text-[0.88rem] text-white leading-tight">{outfit.title}</p>
                   </div>
 

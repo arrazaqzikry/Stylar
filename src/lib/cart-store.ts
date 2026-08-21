@@ -1,3 +1,7 @@
+import cartImgTop from "@/FashionAsset/cart/saved-1.jpg";
+import cartImgBottom from "@/FashionAsset/trousers/trousers-2.webp";
+import cartImgShoes from "@/FashionAsset/shoes/shoes-1.avif";
+
 const CART_KEY = "stylar_cart";
 const CHECKOUT_KEY = "stylar_checkout_items";
 
@@ -15,9 +19,9 @@ export type CartItem = {
 };
 
 const DEFAULT_CART: CartItem[] = [
-  { id: 1, name: "Merino Blend Crewneck", brand: "Uniqlo", price: "RM 59", seed: "cart-merino-crewneck" },
-  { id: 2, name: "Slim Straight Chino", brand: "COS", price: "RM 89", seed: "cart-slim-chino" },
-  { id: 3, name: "Leather Low Trainer", brand: "Veja", price: "RM 160", seed: "cart-leather-trainer" },
+  { id: 1, name: "Merino Blend Crewneck", brand: "Uniqlo", price: "RM 59", img: cartImgTop },
+  { id: 2, name: "Slim Straight Chino", brand: "COS", price: "RM 89", img: cartImgBottom },
+  { id: 3, name: "Leather Low Trainer", brand: "Veja", price: "RM 160", img: cartImgShoes },
 ];
 
 export function getCart(): CartItem[] {

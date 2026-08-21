@@ -785,12 +785,17 @@ function ComingSoonChip({ children }: { children: React.ReactNode }) {
       <button
         type="button"
         disabled
-        className="border px-3 py-2 text-xs cursor-not-allowed select-none"
-        style={{ borderColor: "var(--border)", color: "var(--muted-foreground)", opacity: 0.35 }}
+        className="flex items-center gap-1.5 border px-3 py-2 text-xs cursor-not-allowed select-none"
+        style={{ borderColor: "var(--border)", color: "var(--muted-foreground)", opacity: 0.55 }}
       >
+        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0" aria-hidden="true">
+          <rect x="3" y="11" width="18" height="10" rx="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
         {children}
+        <span className="eyebrow text-[6.5px] flex-shrink-0" style={{ color: "var(--gold)" }}>Soon</span>
       </button>
-      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 hidden md:block">
         <div className="bg-foreground text-background px-2.5 py-1.5 whitespace-nowrap shadow-lg">
           <span className="eyebrow text-[8px]">Coming Soon</span>
         </div>

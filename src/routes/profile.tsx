@@ -11,8 +11,32 @@ import dtPhoto from "@/FashionAsset/DT.jpg";
 import fi14 from "@/FashionAsset/FI-14.jpg";
 import fi18 from "@/FashionAsset/FI-18.jpg";
 import fi23 from "@/FashionAsset/FI-23.jpg";
+// Purchase history — pooled by garment type so images always match the item
+import top1 from "@/FashionAsset/top/top-1.jpg";
+import top2 from "@/FashionAsset/top/top-2.avif";
+import top3 from "@/FashionAsset/top/top-3.jpg";
+import trousers1 from "@/FashionAsset/trousers/trousers-1.jpg";
+import trousers2 from "@/FashionAsset/trousers/trousers-2.webp";
+import trousers3 from "@/FashionAsset/trousers/trousers-3.webp";
+import trousers4 from "@/FashionAsset/trousers/trousers-4.avif";
+import shoes1 from "@/FashionAsset/shoes/shoes-1.avif";
+import shoes2 from "@/FashionAsset/shoes/shoes-2.jpg";
+import shoes3 from "@/FashionAsset/shoes/shoes-3.jpg";
+import shoes4 from "@/FashionAsset/shoes/shoes-4.webp";
+import shoes5 from "@/FashionAsset/shoes/shoes-5.jpg";
 
-// Element image pool — random picks for cart & purchase history
+const TYPE_IMAGE_POOL: Record<string, string[]> = {
+  Top: [top1, top2, top3],
+  Bottom: [trousers1, trousers2, trousers3, trousers4],
+  Shoes: [shoes1, shoes2, shoes3, shoes4, shoes5],
+};
+function pickByType(type: string, seed: string): string {
+  const pool = TYPE_IMAGE_POOL[type] ?? TYPE_IMAGE_POOL.Top;
+  const hash = seed.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  return pool[Math.abs(hash) % pool.length];
+}
+
+// Element image pool — random picks for cart fallback items with no explicit image
 const _elMods = import.meta.glob("../../Element/**/*.{jpg,jpeg,webp,avif,png}", { eager: true }) as Record<string, { default: string }>;
 const ELEMENT_IMAGE_POOL: string[] = Object.values(_elMods).map((m) => m.default);
 function pickElement(seed: string): string {
@@ -53,9 +77,9 @@ const PURCHASE_HISTORY: PurchaseOrder[] = [
     date: "Jun 15, 2026",
     total: "RM 308",
     items: [
-      { name: "Leather Low Trainer", brand: "Veja", price: "RM 160", type: "Shoes", img: pickElement("ord001-shoes-veja") },
-      { name: "Slim Straight Chino", brand: "COS", price: "RM 89", type: "Bottom", img: pickElement("ord001-chino-cos") },
-      { name: "Merino Crewneck", brand: "Uniqlo", price: "RM 59", type: "Top", img: pickElement("ord001-crewneck-uniqlo") },
+      { name: "Leather Low Trainer", brand: "Veja", price: "RM 160", type: "Shoes", img: pickByType("Shoes", "ord001-shoes-veja") },
+      { name: "Slim Straight Chino", brand: "COS", price: "RM 89", type: "Bottom", img: pickByType("Bottom", "ord001-chino-cos") },
+      { name: "Merino Crewneck", brand: "Uniqlo", price: "RM 59", type: "Top", img: pickByType("Top", "ord001-crewneck-uniqlo") },
     ],
   },
   {
@@ -63,8 +87,8 @@ const PURCHASE_HISTORY: PurchaseOrder[] = [
     date: "May 28, 2026",
     total: "RM 520",
     items: [
-      { name: "Oxford Brogue", brand: "Church's", price: "RM 390", type: "Shoes", img: pickElement("ord002-brogue-churchs") },
-      { name: "Tailored Trouser", brand: "COS", price: "RM 130", type: "Bottom", img: pickElement("ord002-trouser-cos") },
+      { name: "Oxford Brogue", brand: "Church's", price: "RM 390", type: "Shoes", img: pickByType("Shoes", "ord002-brogue-churchs") },
+      { name: "Tailored Trouser", brand: "COS", price: "RM 130", type: "Bottom", img: pickByType("Bottom", "ord002-trouser-cos") },
     ],
   },
   {
@@ -72,9 +96,9 @@ const PURCHASE_HISTORY: PurchaseOrder[] = [
     date: "May 10, 2026",
     total: "RM 1,150",
     items: [
-      { name: "Strappy Sandal", brand: "By Far", price: "RM 380", type: "Shoes", img: pickElement("ord003-sandal-byfar") },
-      { name: "Bias Silk Skirt", brand: "Anine Bing", price: "RM 390", type: "Bottom", img: pickElement("ord003-skirt-aninebing") },
-      { name: "Single-Button Blazer", brand: "Saint Laurent", price: "RM 380", type: "Top", img: pickElement("ord003-blazer-saintlaurent") },
+      { name: "Strappy Sandal", brand: "By Far", price: "RM 380", type: "Shoes", img: pickByType("Shoes", "ord003-sandal-byfar") },
+      { name: "Bias Silk Skirt", brand: "Anine Bing", price: "RM 390", type: "Bottom", img: pickByType("Bottom", "ord003-skirt-aninebing") },
+      { name: "Single-Button Blazer", brand: "Saint Laurent", price: "RM 380", type: "Top", img: pickByType("Top", "ord003-blazer-saintlaurent") },
     ],
   },
 ];
@@ -192,7 +216,7 @@ function ProfilePage() {
           </div>
           <div className="flex flex-1 justify-around">
             <ProfileStat label="Saved" value="47" />
-            <ProfileStat label="Adored" value="128" />
+            <ProfileStat label="Adored" value={String(likedIds.length)} />
             <ProfileStat label="Generated" value="34" />
           </div>
         </div>
